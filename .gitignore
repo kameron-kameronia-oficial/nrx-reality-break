@@ -1,0 +1,9 @@
+Thumbs.db
+.DS_Store
+*.log
+*.tmp
+*.map
+node_modules/
+.wrangler/
+.env
+.env.*
