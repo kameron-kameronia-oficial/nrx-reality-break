@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://nrx-reality-break.pages.dev/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
   <url><loc>https://nrx-reality-break.pages.dev/personajes</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -15,4 +15,9 @@
   <url><loc>https://nrx-reality-break.pages.dev/personajes/zyrax-z</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://nrx-reality-break.pages.dev/personajes/selverria</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://nrx-reality-break.pages.dev/personajes/reyka</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-</urlset>
+  <url>
+    <loc>https://nrx-reality-break.pages.dev/personajes/maria-estefania-scrapped</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url></urlset>
+
