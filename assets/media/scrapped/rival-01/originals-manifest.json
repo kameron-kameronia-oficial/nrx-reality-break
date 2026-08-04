@@ -1,0 +1,216 @@
+{
+  "archive": "Scrapped naturalis melodies",
+  "file_count": 42,
+  "files": [
+    {
+      "path": "Demo/Natural v2/Ecosystem v1.mp3",
+      "bytes": 1144846,
+      "sha256": "d20c87746c1947737fe177166d31937ede5acb5a57f8ca44b5a0531e34b847fc"
+    },
+    {
+      "path": "Demo/Natural v2/Ecosystem v1.png",
+      "bytes": 8059963,
+      "sha256": "1cbf8e27dd1535485d8590fe672e772886705922575d3c3f4d32d21382f80f0a"
+    },
+    {
+      "path": "Demo/Natural v2/Naturalis_Melodiesong 1 demo.mp4",
+      "bytes": 21616209,
+      "sha256": "1d9bc72d69ea04314cc71df75fc30d07502473536513658a2643cd8bd83fefa7"
+    },
+    {
+      "path": "Demo/Natural v2/Song 1 natural v2.mp3",
+      "bytes": 1797764,
+      "sha256": "62234c028d577d89f4b404361dff4a52bb4010e5f44c878ef63c726d46356805"
+    },
+    {
+      "path": "Demo/Natural v2/Song 1 natural v3.mp3",
+      "bytes": 1257278,
+      "sha256": "79a8991bf9a0f150285d264caf52f2c9366d3f43127ce5824fa26df74a399a3a"
+    },
+    {
+      "path": "Demo/Natural v2/Song 1 natural.mp3",
+      "bytes": 1840121,
+      "sha256": "c90de8bcbc86f7e36b8553abd747550d43a0f2d796acd1e120793f4d745a0b3c"
+    },
+    {
+      "path": "Demo/Natural v2/Song 1 portada natural.png",
+      "bytes": 8607788,
+      "sha256": "535ed293cbbb9e2e9535b9a7f1b71f9355a518869ac8d8b6eed86683c670f7ca"
+    },
+    {
+      "path": "Demo/Permafrost v2/Dialogue 1.png",
+      "bytes": 1425524,
+      "sha256": "5206af38668a8ff585b4cdb4964180696b4def72a4b1ec57bfddbbe1a877f5c4"
+    },
+    {
+      "path": "Demo/Permafrost v2/Dialogue 2.png",
+      "bytes": 1218116,
+      "sha256": "ea549daa507579f043626d2719ba298817149a3bd94b232cd4ebd84ffc5b1f6c"
+    },
+    {
+      "path": "Demo/Permafrost v2/Dialogue 3.png",
+      "bytes": 1047323,
+      "sha256": "e3135eb8eabebe18fda60fee794806e5557a51efb87f418ca7c593f32e5e8988"
+    },
+    {
+      "path": "Demo/Permafrost v2/Dialogue ost.mp3",
+      "bytes": 1033253,
+      "sha256": "35326bcea17485abbaf5141e55ff95621799d07674a25d549c9d3dda20b2d8dc"
+    },
+    {
+      "path": "Demo/Permafrost v2/Loding Permafrost.mp3",
+      "bytes": 1253935,
+      "sha256": "d660505c62cb553b0fda083bccdf852830407d32b78552b9ce1191d30a0c3c6d"
+    },
+    {
+      "path": "Demo/Permafrost v2/Loding Permafrost.png",
+      "bytes": 1381523,
+      "sha256": "12bf850d8e931759b60824f905a5763f6acdc7a58c7de8eab274f048269da742"
+    },
+    {
+      "path": "Demo/Permafrost v2/Portada song 2 permafrost.png",
+      "bytes": 7299020,
+      "sha256": "a45a16285768ea5d4f1a4fc39dab8139996813e7469ad7a34353d682bbf7b5c9"
+    },
+    {
+      "path": "Demo/Permafrost v2/Sprites Demo kamer old.gif",
+      "bytes": 3057852,
+      "sha256": "88f8485dacd169f628877180a0667e04cf7d2c0fe30adff246fedf467d7604f9"
+    },
+    {
+      "path": "Demo/Permafrost v2/Sprites Demo kamer v2 old.gif",
+      "bytes": 2214846,
+      "sha256": "8bbd07398f935375ad644860fdc4eb9c8e808415090eb73e9be3103d6e735a91"
+    },
+    {
+      "path": "Demo/Permafrost v2/Stague animacion Permafrost.mp4",
+      "bytes": 7832436,
+      "sha256": "433fcbd203d96fc64e6c4c61fbedb16f63d9657fa662bcc5e1904db472845822"
+    },
+    {
+      "path": "Demo/Permafrost v2/banner permafrost.png",
+      "bytes": 3021972,
+      "sha256": "13b69e378656a84614ec719a4815330758ce514aa051ec767d518a718ded81f8"
+    },
+    {
+      "path": "Demo/Permafrost v2/kamer....png",
+      "bytes": 225697,
+      "sha256": "6602ea8d73a96aa8b5f533f8015662bd224ed585afba78fffe367cb034c5e480"
+    },
+    {
+      "path": "Demo/Permafrost v2/omg_kam_is_luigi.mp3",
+      "bytes": 648324,
+      "sha256": "b3ce105194bd0c5d238726ae76dcab700aa2095e4fb12e37fb17cb341164fc14"
+    },
+    {
+      "path": "Pree demo/Song 1 natural/Gf naturalis melodies old.gif",
+      "bytes": 3796454,
+      "sha256": "66cd77c3f35cca25996fefde7378b9fa3899b77ef598e49c00aec574139710ad"
+    },
+    {
+      "path": "Pree demo/Song 1 natural/Kamer v1.png",
+      "bytes": 633752,
+      "sha256": "45f78136b5ce46da374545c3258450f8a1fc604113fe7dece01fb1c574cebc12"
+    },
+    {
+      "path": "Pree demo/Song 1 natural/Natural v1.mp3",
+      "bytes": 1705172,
+      "sha256": "b67367e663be0240fa11d931d2e5024e92aa65d8e11fbe7d788e3328ce314346"
+    },
+    {
+      "path": "Pree demo/Song 1 natural/Natural v2.mp3",
+      "bytes": 2096539,
+      "sha256": "2ed37709473ec5f35d762ebab352886de7cc3ac57a4b7eb26638d0963acbdbf5"
+    },
+    {
+      "path": "Pree demo/Song 1 natural/Naturalis_Melodies_2024-02-02_19-46-10_-_Trim.mp4",
+      "bytes": 21616209,
+      "sha256": "1d9bc72d69ea04314cc71df75fc30d07502473536513658a2643cd8bd83fefa7"
+    },
+    {
+      "path": "Pree demo/Song 1 natural/Portada song 1 natural.png",
+      "bytes": 517910,
+      "sha256": "e416b2d7a43eaf998c5274dd5307c1461aba4e8e9909a4b269114bbf05f83a57"
+    },
+    {
+      "path": "Pree demo/Song 1 natural/gf concepto.png",
+      "bytes": 5856294,
+      "sha256": "36b95c47e541e63f8ce1055d4f25f1b7c8bb49f084f94dbebda73abe4bd2ef38"
+    },
+    {
+      "path": "Pree demo/Song 1 natural/naturalis melodies kamer idea 2.png",
+      "bytes": 1492944,
+      "sha256": "4addc34be28f6854470cc733592a33429ac6c04854d2b4fad17e1b301d0d9828"
+    },
+    {
+      "path": "Pree demo/Song 1 natural/naturalis melodies kamer idea idle.png",
+      "bytes": 1456516,
+      "sha256": "d3c99c9faae42ab1160e6db261ad3635cf06d2338afa550d4441094b8fbfa435"
+    },
+    {
+      "path": "Pree demo/Song 1 natural/naturalis melodies kamer idea.png",
+      "bytes": 1875903,
+      "sha256": "494c20f4438a9f6f7924cd1a405a471ac300ab949327785f8c41bbd99d2467bb"
+    },
+    {
+      "path": "Pree demo/Song 1 natural/naturalis melodies stague 2.png",
+      "bytes": 10002744,
+      "sha256": "62b23d38ee241db48862fe4ad5247d7ebd2b7f1bc60bb02a4846275e6f6ee938"
+    },
+    {
+      "path": "Pree demo/Song 1 natural/naturalis melodies stague.png",
+      "bytes": 9567951,
+      "sha256": "aa3ffad3d27127a200d61772bd9b5e81515e4d20955d9f972421f6301d4cf21a"
+    },
+    {
+      "path": "Pree demo/Song 1 natural/old kamer.png",
+      "bytes": 104458,
+      "sha256": "c85c8be19efcb9a70cb4cb23604f749296464ae444868495cd020dacd86f7bb3"
+    },
+    {
+      "path": "Pree demo/Song 2 permafrost/Inst (11).ogg",
+      "bytes": 4134350,
+      "sha256": "75f5cbb5bac322495a70fde368709a5f6b42ec6a13a6d4a6e4d1086c2435010f"
+    },
+    {
+      "path": "Pree demo/Song 2 permafrost/Stage_for_Kamer_sunset_no_lightning atardecer.png",
+      "bytes": 8933675,
+      "sha256": "e2c8eb004fecb541cb76b4bedc5cf814ca84ed175e0d8aff052697e9edda7459"
+    },
+    {
+      "path": "Pree demo/Song 2 permafrost/Stage_for_Kamer_sunset_no_lightning.png",
+      "bytes": 9733892,
+      "sha256": "b2d8ed449b263d34132a2bc3a775812c8e6052efb22a1c13f15cbdd9099acbd9"
+    },
+    {
+      "path": "Pree demo/Song 2 permafrost/concepto old de idea de kamer.png",
+      "bytes": 770944,
+      "sha256": "015fc54eefac083f149cfbcbc72df48b4179937bd1f3f25f060bd4be9eb9dd75"
+    },
+    {
+      "path": "Pree demo/Song 2 permafrost/flechas de jugabilidad.png",
+      "bytes": 556983,
+      "sha256": "9f9ecb3a52c78d0bdf0f3a3818310e2e389df172d3426ff68dd9f04c4e97bee9"
+    },
+    {
+      "path": "Pree demo/Song 2 permafrost/kamer idle pree demo.png",
+      "bytes": 775593,
+      "sha256": "c61b45ed6d5378325f9552e5fd1a7faf3504f316e619db34cdc91f04e53309c7"
+    },
+    {
+      "path": "Pree demo/Song 2 permafrost/kamer naranja.png",
+      "bytes": 349658,
+      "sha256": "2ad9acc83fcdcbeab7189273d0ecb69a193be26bd7020ba889a9578c9ce5b25e"
+    },
+    {
+      "path": "Pree demo/Song 2 permafrost/kamer naturalis tired.png",
+      "bytes": 962202,
+      "sha256": "b4e4879195d9472c273b70ea747dc2a0a088e56719de34aa5b43455cfee1e101"
+    },
+    {
+      "path": "leelo chatgpt.txt",
+      "bytes": 1126,
+      "sha256": "e7734687ce184cc6be6d557093e2ec18250186ffe1074d900223b9cca0ca6c8f"
+    }
+  ]
+}
