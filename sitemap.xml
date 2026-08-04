@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://nrxrealitybreak.pages.dev/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
-  <url><loc>https://nrxrealitybreak.pages.dev/personajes.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nrxrealitybreak.pages.dev/canciones.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nrxrealitybreak.pages.dev/mecanicas.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nrxrealitybreak.pages.dev/desarrollo.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nrxrealitybreak.pages.dev/personajes/kamer.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nrxrealitybreak.pages.dev/personajes/camila.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nrxrealitybreak.pages.dev/personajes/maria-estefania.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nrxrealitybreak.pages.dev/personajes/aurora.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nrxrealitybreak.pages.dev/personajes/kargem.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nrxrealitybreak.pages.dev/personajes/tsuran.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nrxrealitybreak.pages.dev/personajes/selalla.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nrxrealitybreak.pages.dev/personajes/zyrax-z.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nrxrealitybreak.pages.dev/personajes/selverria.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://nrxrealitybreak.pages.dev/personajes/reyka.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-</urlset>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/canciones.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/mecanicas.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/desarrollo.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/kamer.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/camila.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/maria-estefania.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/aurora.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/kargem.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/tsuran.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/selalla.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/zyrax-z.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/selverria.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/reyka.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/camila-scrapped.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/maria-estefania-scrapped.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url></urlset>

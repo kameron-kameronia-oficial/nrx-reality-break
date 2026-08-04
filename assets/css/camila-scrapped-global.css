@@ -1,0 +1,42 @@
+body {
+  isolation: isolate;
+}
+#rainCanvas {
+  display: none !important;
+}
+#nrxGlobalRain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+body.deleted-global-active #nrxGlobalRain {
+  opacity: 1;
+}
+body > header,
+body > main,
+body > footer {
+  position: relative;
+  z-index: 2;
+}
+.nrx-letter {
+  display: inline-block;
+  transform: translate3d(0,0,0);
+}
+body.deleted-global-active .nrx-letter {
+  animation: nrxGlobalLetterWave .9s ease-in-out infinite;
+  animation-delay: var(--nrx-letter-delay, 0ms);
+}
+body.deleted-global-active .deleted-title span {
+  animation: wave .75s ease-in-out infinite;
+}
+@keyframes nrxGlobalLetterWave {
+  0%,100% { transform: translate3d(0,0,0) rotate(0deg); }
+  25% { transform: translate3d(0,-2px,0) rotate(-.35deg); }
+  50% { transform: translate3d(0,4px,0) rotate(.35deg); }
+  75% { transform: translate3d(0,-1px,0) rotate(0deg); }
+}

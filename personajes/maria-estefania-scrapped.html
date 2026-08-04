@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Scrapped — María y Estefanía | NRX : Reality Break</title>
+  <meta name="description" content="Archivo de desarrollo descartado de María y Estefanía: Banish Him, Exhasustened, Harverserts, diseños antiguos, sprites y escenarios.">
+  <link rel="canonical" href="https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/maria-estefania-scrapped.html">
+  <meta property="og:title" content="Scrapped — María y Estefanía | NRX : Reality Break">
+  <meta property="og:description" content="Canciones, diseños y conceptos descartados de Rival 03.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/maria-estefania-scrapped.html">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg:#05090d;
+      --panel:#091117;
+      --panel2:#0d171e;
+      --text:#eff7ff;
+      --muted:#9aaab8;
+      --line:#243743;
+      --acid:#8cff38;
+      --acid-soft:rgba(140,255,56,.12);
+      --danger:#ff536f;
+      --cyan:#53e7ff;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:
+      linear-gradient(rgba(140,255,56,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(140,255,56,.025) 1px,transparent 1px),
+      var(--bg);background-size:36px 36px;color:var(--text);
+      font-family:Inter,Segoe UI,Arial,sans-serif}
+    a{color:inherit}
+    .shell{width:min(1180px,calc(100% - 32px));margin:auto}
+    header{position:sticky;top:0;z-index:20;background:rgba(5,9,13,.92);
+      backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+    .nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand{font-weight:900;letter-spacing:-.04em;font-size:22px;text-decoration:none}
+    .brand span{color:var(--acid)}
+    .navlinks{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:11px 15px;border:1px solid var(--line);border-radius:12px;
+      text-decoration:none;background:var(--panel);font-weight:700}
+    .btn:hover{border-color:var(--acid);background:var(--acid-soft)}
+    .hero{padding:74px 0 44px}
+    .eyebrow{display:inline-flex;padding:7px 11px;border:1px solid rgba(255,83,111,.55);
+      border-radius:999px;color:#ff8296;background:rgba(255,83,111,.08);
+      font:700 13px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.05em}
+    h1{font-size:clamp(50px,10vw,116px);line-height:.84;margin:24px 0 28px;
+      letter-spacing:-.075em}
+    h1 strong{display:block;color:var(--acid)}
+    .lead{font-size:clamp(18px,2.4vw,25px);line-height:1.55;color:var(--muted);max-width:860px}
+    .warning{margin-top:28px;padding:18px;border:1px solid rgba(255,83,111,.42);
+      border-radius:16px;background:rgba(255,83,111,.06);color:#ffc2cc}
+    section{padding:36px 0}
+    .section-title{display:flex;align-items:end;justify-content:space-between;gap:20px;
+      margin-bottom:20px}
+    h2{font-size:clamp(30px,5vw,54px);letter-spacing:-.05em;margin:0}
+    h3{font-size:24px;margin:0 0 10px}
+    .code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--acid)}
+    .card{background:linear-gradient(145deg,var(--panel),var(--panel2));
+      border:1px solid var(--line);border-radius:22px;padding:22px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .media-layout{display:grid;grid-template-columns:minmax(240px,360px) 1fr;gap:24px}
+    .cover{width:100%;aspect-ratio:1/1;object-fit:contain;background:#020508;
+      border:1px solid var(--line);border-radius:18px}
+    .log-panel{min-height:210px;padding:22px;border:1px solid rgba(140,255,56,.5);
+      border-radius:18px;background:
+      repeating-linear-gradient(0deg,transparent 0 24px,rgba(140,255,56,.035) 25px 26px),
+      #030807;box-shadow:inset 0 0 34px rgba(140,255,56,.04)}
+    .log-head{display:flex;justify-content:space-between;gap:16px;color:var(--acid);
+      font:700 13px ui-monospace,SFMono-Regular,Consolas,monospace;margin-bottom:22px}
+    #banishLog{font:700 clamp(19px,2.8vw,31px)/1.4 ui-monospace,SFMono-Regular,Consolas,monospace}
+    .cursor{display:inline-block;width:.62em;height:1.08em;background:var(--acid);
+      vertical-align:-.14em;animation:blink .75s steps(1) infinite}
+    @keyframes blink{50%{opacity:0}}
+    .audio-card{margin-top:15px;padding:16px;border:1px solid var(--line);
+      border-radius:15px;background:rgba(0,0,0,.23)}
+    .audio-card.active{border-color:var(--acid);box-shadow:0 0 0 3px rgba(140,255,56,.08)}
+    audio{width:100%;margin-top:12px}
+    .status{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+    .chip{padding:6px 9px;border-radius:999px;border:1px solid var(--line);
+      color:var(--muted);font-size:12px;font-weight:800}
+    .chip.red{color:#ff8ca0;border-color:rgba(255,83,111,.45)}
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:17px;overflow:hidden}
+    figure img{display:block;width:100%;aspect-ratio:1/1;object-fit:contain;background:#030609}
+    figcaption{padding:12px;color:var(--muted);font-weight:700}
+    .wide img{aspect-ratio:16/9}
+    .note{color:var(--muted);line-height:1.65}
+    footer{padding:46px 0 70px;color:var(--muted);border-top:1px solid var(--line);margin-top:36px}
+    @media(max-width:800px){
+      .nav{align-items:flex-start;padding:14px 0;flex-direction:column}
+      .media-layout,.grid2{grid-template-columns:1fr}
+      .gallery{grid-template-columns:1fr 1fr}
+      .hero{padding-top:48px}
+    }
+    @media(max-width:500px){
+      .gallery{grid-template-columns:1fr}
+      .shell{width:min(100% - 22px,1180px)}
+      .card{padding:15px}
+    }
+  </style>
+</head>
+<body data-nrx-page="SCRAPPED_ARCHIVE_RIVAL_03_V1">
+<header>
+  <div class="shell nav">
+    <a class="brand" href="../index.html">NRX <span>:</span> REALITY BREAK</a>
+    <nav class="navlinks" aria-label="Navegación">
+      <a class="btn" href="maria-estefania.html">← Rival 03</a>
+      <a class="btn" href="../personajes.html">Personajes</a>
+      <a class="btn" href="#banish-him">Banish Him</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="shell hero">
+    <div class="eyebrow">RIVAL 03 // ARCHIVO DESCARTADO</div>
+    <h1>SCRAPPED<strong>María &amp; Estefanía</strong></h1>
+    <p class="lead">Registro interactivo de canciones, diseños, sprites y escenarios que fueron considerados durante el desarrollo, pero no formarán parte de la demo exclusiva.</p>
+    <div class="warning"><strong>Contenido no canónico:</strong> las ideas de esta página pertenecen al historial de desarrollo. Los nombres, conceptos y argumentos son provisionales y no representan la continuidad definitiva.</div>
+  </div>
+
+  <section id="banish-him">
+    <div class="shell">
+      <div class="section-title">
+        <div>
+          <div class="code">SCRAPPED AUDIO // 01</div>
+          <h2>Banish Him</h2>
+        </div>
+        <span class="chip red">NO ESTARÁ EN LA DEMO EXCLUSIVA</span>
+      </div>
+
+      <div class="media-layout">
+        <div class="card">
+          <img id="banishCover" class="cover" src="../assets/media/scrapped/rival-03/img/maria-cover.png" alt="Concepto antiguo de María para Banish Him">
+          <div class="status">
+            <span class="chip red">DESCARTADA</span>
+            <span class="chip">MARÍA</span>
+            <span class="chip">2 VERSIONES</span>
+          </div>
+          <p class="note">Al reproducir cualquiera de las versiones, el panel superior contará progresivamente por qué la canción fue descartada. Pausar, adelantar o retroceder el audio también sincroniza el registro.</p>
+        </div>
+
+        <div>
+          <div class="log-panel" aria-live="polite">
+            <div class="log-head">
+              <span>SCRAPPED_DEVELOPMENT_LOG // BANISH_HIM</span>
+              <span id="banishStatus">EN ESPERA</span>
+            </div>
+            <div id="banishLog">Presiona reproducir para abrir el registro.<span class="cursor" aria-hidden="true"></span></div>
+          </div>
+
+          <div class="audio-card" id="banishCard1">
+            <strong>Banish Him — Versión 1</strong>
+            <div class="note">Propuesta original · duración aproximada 2:49</div>
+            <audio id="banishV1" data-banish data-cover="../assets/media/scrapped/rival-03/img/maria-cover.png" controls preload="metadata">
+              <source src="../assets/media/scrapped/rival-03/audio/banish-him-v1.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+
+          <div class="audio-card" id="banishCard2">
+            <strong>Banish Him — Versión 2</strong>
+            <div class="note">Revisión posterior · duración aproximada 2:19</div>
+            <audio id="banishV2" data-banish data-cover="../assets/media/scrapped/rival-03/img/maria-v2.png" controls preload="metadata">
+              <source src="../assets/media/scrapped/rival-03/audio/banish-him-v2.ogg" type="audio/ogg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="exhasustened">
+    <div class="shell">
+      <div class="section-title">
+        <div>
+          <div class="code">SCRAPPED AUDIO // 02</div>
+          <h2>Exhasustened</h2>
+        </div>
+        <span class="chip">TÍTULO PROVISIONAL</span>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <img id="exCover" class="cover" src="../assets/media/scrapped/rival-03/img/maria-cover.png" alt="María al inicio del concepto Exhasustened">
+          <h3 id="exCharacter" style="margin-top:15px">0:00 — María inicia</h3>
+          <p class="note">En la versión 1, la imagen cambia automáticamente de María a Estefanía aproximadamente en 0:35.6, reflejando el reemplazo planeado durante la canción.</p>
+        </div>
+        <div class="card">
+          <div class="status"><span class="chip red">DESCARTADA</span><span class="chip">LORE SIN DEFINIR</span></div>
+          <p class="note">La propuesta mostraba a María agotándose después de perder una batalla musical; Estefanía tomaría su lugar. Se descartó porque no existía una explicación narrativa segura y la secuencia nunca consiguió una dirección fija.</p>
+          <div class="audio-card">
+            <strong>Exhasustened — Versión 1</strong>
+            <audio id="exV1" controls preload="metadata">
+              <source src="../assets/media/scrapped/rival-03/audio/exhasustened-v1.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div class="audio-card">
+            <strong>Exhasustened — Versión 2 incompleta</strong>
+            <div class="note">Fragmento conservado · aproximadamente 35 segundos</div>
+            <audio id="exV2" controls preload="metadata">
+              <source src="../assets/media/scrapped/rival-03/audio/exhasustened-v2.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="harverserts">
+    <div class="shell">
+      <div class="section-title">
+        <div>
+          <div class="code">SCRAPPED AUDIO // 03</div>
+          <h2>Harverserts</h2>
+        </div>
+        <span class="chip">PROTOTIPO</span>
+      </div>
+      <div class="media-layout">
+        <div class="card">
+          <img class="cover" src="../assets/media/scrapped/rival-03/img/harverserts-concept.png" alt="Concepto visual provisional de Harverserts">
+        </div>
+        <div class="card">
+          <div class="status"><span class="chip red">DESCARTADA</span><span class="chip">IDEA DE CODIRECCIÓN</span></div>
+          <p class="note"><strong>Harverserts</strong> fue un título de desarrollo. La propuesta surgió como idea de la codirectora, pero nunca obtuvo una historia, función o concepto fijo, por lo que no avanzó hacia la demo exclusiva.</p>
+          <div class="audio-card">
+            <strong>Harverserts — Prototipo</strong>
+            <audio controls preload="metadata">
+              <source src="../assets/media/scrapped/rival-03/audio/harverserts-prototype.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria">
+    <div class="shell">
+      <div class="section-title">
+        <div>
+          <div class="code">VISUAL DEVELOPMENT ARCHIVE</div>
+          <h2>Diseños y sprites antiguos</h2>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="../assets/media/scrapped/rival-03/img/maria-cover.png" alt="Portada antigua de María"><figcaption>María — portada original</figcaption></figure>
+        <figure><img src="../assets/media/scrapped/rival-03/img/maria-v2.png" alt="Diseño María versión 2"><figcaption>María — revisión V2</figcaption></figure>
+        <figure><img src="../assets/media/scrapped/rival-03/img/estefania-old.png" alt="Diseño antiguo de Estefanía"><figcaption>Estefanía — diseño antiguo</figcaption></figure>
+        <figure><img src="../assets/media/scrapped/rival-03/img/estefania-cover.png" alt="Portada descartada de Estefanía"><figcaption>Estefanía — portada descartada</figcaption></figure>
+        <figure><img src="../assets/media/scrapped/rival-03/img/estefania-v2.png" alt="Estefanía versión 2"><figcaption>Estefanía — reinterpretación V2</figcaption></figure>
+        <figure><img src="../assets/media/scrapped/rival-03/img/maria-idle-v1.png" alt="Sprite idle original de María"><figcaption>María — Idle original</figcaption></figure>
+        <figure><img src="../assets/media/scrapped/rival-03/img/maria-idle-v2.png" alt="Sprite idle versión 2 de María"><figcaption>María — Idle V2</figcaption></figure>
+        <figure><img src="../assets/media/scrapped/rival-03/img/maria-up.png" alt="Sprite de María dirección arriba"><figcaption>María — Up</figcaption></figure>
+        <figure><img src="../assets/media/scrapped/rival-03/img/maria-down.png" alt="Sprite de María dirección abajo"><figcaption>María — Down</figcaption></figure>
+        <figure class="wide"><img src="../assets/media/scrapped/rival-03/img/maria-old-stage.png" alt="Escenario escolar antiguo de María"><figcaption>Escenario antiguo de María</figcaption></figure>
+        <figure><img src="../assets/media/scrapped/rival-03/img/estefania-sketch-sheet.png" alt="Bocetos antiguos de Estefanía"><figcaption>Bocetos y expresiones</figcaption></figure>
+        <figure><img src="../assets/media/scrapped/rival-03/img/estefania-sus-concept.png" alt="Concepto humorístico descartado de Estefanía"><figcaption>Curiosidad descartada</figcaption></figure>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    <strong>NRX : Reality Break</strong><br>
+    Archivo histórico de desarrollo · Rival 03 · contenido descartado y no canónico.
+  </div>
+</footer>
+
+<script>
+(() => {
+  const allAudio = [...document.querySelectorAll('audio')];
+  allAudio.forEach(audio => {
+    audio.addEventListener('play', () => {
+      allAudio.forEach(other => {
+        if (other !== audio) other.pause();
+      });
+    });
+  });
+
+  const log = document.getElementById('banishLog');
+  const status = document.getElementById('banishStatus');
+  const cover = document.getElementById('banishCover');
+  const banishAudios = [...document.querySelectorAll('[data-banish]')];
+  const cards = [document.getElementById('banishCard1'), document.getElementById('banishCard2')];
+
+  const segments = [
+    {at:0.00,text:'ARCHIVO DESCARTADO // BANISH HIM. Esta fue una propuesta temprana para María.'},
+    {at:0.10,text:'La canción buscaba representar dos dimensiones distintas de la misma rival.'},
+    {at:0.23,text:'En la primera dimensión, María conservaba una vida feliz y una identidad estable.'},
+    {at:0.36,text:'En la segunda, la Matrix comenzaba a corromperla y alteraba progresivamente su realidad.'},
+    {at:0.50,text:'Durante el desarrollo también se exploró simbolismo oscuro y religioso como parte del conflicto.'},
+    {at:0.64,text:'Sin embargo, esos elementos nunca consiguieron una explicación narrativa clara dentro de la temporada.'},
+    {at:0.77,text:'La historia cambió varias veces y no se pudo definir una secuencia segura para la canción.'},
+    {at:0.89,text:'MOTIVO FINAL: lore sin definir y concepto sin dirección fija. La canción fue retirada de la demo exclusiva.'},
+    {at:0.98,text:'STATUS: SCRAPPED // CANON: NO // ARCHIVED FOR DOCUMENTATION: YES'}
+  ];
+
+  let active = null;
+  let currentSegment = -1;
+  let timer = null;
+  let targetText = '';
+  let visibleCount = 0;
+
+  function render() {
+    const shown = targetText.slice(0, visibleCount);
+    log.innerHTML = '';
+    log.append(document.createTextNode(shown));
+    const cursor = document.createElement('span');
+    cursor.className = 'cursor';
+    cursor.setAttribute('aria-hidden', 'true');
+    log.append(cursor);
+  }
+
+  function typeNext() {
+    clearTimeout(timer);
+    if (!active || active.paused) return;
+    if (visibleCount < targetText.length) {
+      visibleCount += 1;
+      render();
+      timer = setTimeout(typeNext, 19);
+    }
+  }
+
+  function chooseSegment(audio, force) {
+    if (!audio.duration || !Number.isFinite(audio.duration)) return;
+    const ratio = Math.max(0, Math.min(1, audio.currentTime / audio.duration));
+    let index = 0;
+    for (let i = 0; i < segments.length; i++) {
+      if (ratio >= segments[i].at) index = i;
+    }
+
+    if (force || index !== currentSegment) {
+      currentSegment = index;
+      targetText = segments[index].text;
+      visibleCount = 0;
+      render();
+      typeNext();
+    }
+    status.textContent = `${Math.floor(audio.currentTime / 60)}:${String(Math.floor(audio.currentTime % 60)).padStart(2,'0')} // ${Math.round(ratio * 100)}%`;
+  }
+
+  banishAudios.forEach((audio, index) => {
+    audio.addEventListener('play', () => {
+      active = audio;
+      cover.src = audio.dataset.cover;
+      cards.forEach((card, i) => card.classList.toggle('active', i === index));
+      chooseSegment(audio, true);
+      typeNext();
+    });
+    audio.addEventListener('timeupdate', () => chooseSegment(audio, false));
+    audio.addEventListener('seeked', () => chooseSegment(audio, true));
+    audio.addEventListener('pause', () => clearTimeout(timer));
+    audio.addEventListener('ended', () => {
+      currentSegment = segments.length - 1;
+      targetText = segments[currentSegment].text;
+      visibleCount = targetText.length;
+      render();
+      status.textContent = 'ARCHIVO COMPLETADO';
+    });
+  });
+
+  const exV1 = document.getElementById('exV1');
+  const exCover = document.getElementById('exCover');
+  const exCharacter = document.getElementById('exCharacter');
+
+  exV1.addEventListener('timeupdate', () => {
+    const switched = exV1.currentTime >= 35.6;
+    exCover.src = switched
+      ? '../assets/media/scrapped/rival-03/img/estefania-cover.png'
+      : '../assets/media/scrapped/rival-03/img/maria-cover.png';
+    exCharacter.textContent = switched
+      ? '0:35.6 — Estefanía reemplaza a María'
+      : '0:00 — María inicia';
+  });
+  exV1.addEventListener('ended', () => {
+    exCover.src = '../assets/media/scrapped/rival-03/img/maria-cover.png';
+    exCharacter.textContent = '0:00 — María inicia';
+  });
+})();
+</script>
+</body>
+</html>
