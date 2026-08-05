@@ -17,7 +17,7 @@
   <meta property="og:url" content="https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/aurora.html">
   <meta name="twitter:card" content="summary_large_image">
 </head>
-<body class="aurora-page" style="--accent:#c599ff;--accent-rgb:197,153,255">
+<body class="aurora-page" data-page="aurora" style="--accent:#c599ff;--accent-rgb:197,153,255">
   <a class="skip" href="#contenido">Saltar al contenido</a>
   <div class="scanline"></div>
   <div class="aurora-progress" aria-hidden="true"></div>
@@ -52,13 +52,13 @@
   <div class="aurora-entry" data-entry-gate hidden>
     <div class="aurora-entry-card">
       <span>ARCHIVO 04 // DEMO EXCLUSIVA</span>
-      <img src="../assets/media/aurora/demo/img/aurora-main.webp" alt="Aurora">
+      <img src="../assets/media/aurora/demo/img/aurora-main.webp" alt="Aurora" width="280" height="280" decoding="async">
       <p>El navegador bloqueó el audio automático. Pulsa una vez para iniciar la experiencia completa.</p>
       <button type="button" class="btn primary" data-entry-start>INICIAR AURORA</button>
     </div>
   </div>
 
-  <audio id="aurora-demo-audio" preload="auto" loop>
+  <audio id="aurora-demo-audio" preload="metadata" loop>
     <source src="../assets/media/aurora/demo/audio/skilker-music.mp3" type="audio/mpeg">
   </audio>
 
@@ -71,7 +71,7 @@
     <button type="button" data-demo-mute aria-label="Silenciar música">🔊</button>
   </aside>
 
-  <main id="contenido">
+  <main id="contenido" data-glitch-root>
     <section class="aurora-hero" data-glitch-target="hero">
       <div class="aurora-poster" aria-hidden="true"></div>
       <div class="aurora-poster-shade" aria-hidden="true"></div>
@@ -93,7 +93,7 @@
         </div>
         <figure class="aurora-main-figure" data-glitch-target="portrait">
           <div class="aurora-halo" aria-hidden="true"></div>
-          <img class="aurora-main-image" src="../assets/media/aurora/demo/img/aurora-main.webp" alt="Ilustración principal de Aurora" fetchpriority="high">
+          <img class="aurora-main-image" src="../assets/media/aurora/demo/img/aurora-main.webp" alt="Ilustración principal de Aurora" width="650" height="650" decoding="async" fetchpriority="high">
           <figcaption>RIVAL 04 // AURORA</figcaption>
         </figure>
       </div>
@@ -103,7 +103,7 @@
     <section class="aurora-section false-treasure" id="false-treasure" data-glitch-target="false-treasure">
       <div class="wrap false-grid">
         <figure class="false-cover">
-          <img src="../assets/media/aurora/demo/img/false-treasure-cover.webp" alt="Portada oficial de False-Treasure" loading="eager">
+          <img src="../assets/media/aurora/demo/img/false-treasure-cover.webp" alt="Portada oficial de False-Treasure" width="720" height="720" decoding="async" loading="eager">
         </figure>
         <article class="false-copy">
           <span class="aurora-code" data-kinetic>SONG FILE // 02</span>
@@ -141,15 +141,15 @@
         <div class="section-head"><div><span class="badge">Galería oficial</span><h2 data-kinetic>Portada y personaje</h2></div></div>
         <div class="aurora-gallery">
           <button type="button" class="gallery-item gallery-wide" data-lightbox="../assets/media/aurora/demo/img/aurora-poster.webp" aria-label="Abrir póster de Aurora">
-            <img src="../assets/media/aurora/demo/img/aurora-poster.webp" alt="Póster oficial de Aurora" loading="lazy">
+            <img src="../assets/media/aurora/demo/img/aurora-poster.webp" alt="Póster oficial de Aurora" width="1200" height="675" decoding="async" loading="lazy">
             <span>Aurora poster</span>
           </button>
           <button type="button" class="gallery-item" data-lightbox="../assets/media/aurora/demo/img/aurora-main.webp" aria-label="Abrir ilustración principal de Aurora">
-            <img src="../assets/media/aurora/demo/img/aurora-main.webp" alt="Aurora, ilustración principal" loading="lazy">
+            <img src="../assets/media/aurora/demo/img/aurora-main.webp" alt="Aurora, ilustración principal" width="650" height="650" decoding="async" loading="lazy">
             <span>Aurora — imagen principal</span>
           </button>
           <button type="button" class="gallery-item" data-lightbox="../assets/media/aurora/demo/img/false-treasure-cover.webp" aria-label="Abrir portada de False-Treasure">
-            <img src="../assets/media/aurora/demo/img/false-treasure-cover.webp" alt="Portada de False-Treasure" loading="lazy">
+            <img src="../assets/media/aurora/demo/img/false-treasure-cover.webp" alt="Portada de False-Treasure" width="720" height="720" decoding="async" loading="lazy">
             <span>False-Treasure — portada</span>
           </button>
         </div>

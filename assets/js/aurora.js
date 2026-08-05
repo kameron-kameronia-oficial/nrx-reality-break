@@ -1,9 +1,19 @@
 (function () {
+  const page = document.querySelector('[data-page="aurora"]');
+  if (!page) return;
+
   const ORIGINAL_TITLE = 'Aurora | NRX : Reality Break';
-  const STRONG_START = 86.4;
-  const STRONG_END = 123.6;
-  const GLITCH_COUNT = 40;
+  const AURORA_BPM = 200;
+  const BEAT_DURATION = 60 / AURORA_BPM;
+  const HALF_BEAT = BEAT_DURATION / 2;
+  const GLITCH_START_TIME = 86.4;
+  const GLITCH_END_TIME = 123.6;
+  const GLITCH_START_BEAT = 288;
+  const GLITCH_END_BEAT = 412;
+  const TOTAL_GLITCH_EVENTS = 40;
+  const DEFAULT_DURATION = 178.08;
   const URL_NORMAL = 'https://kameron-kameronia-oficial.github.io/nrx-reality-break/personajes/aurora.html';
+
   const CORRUPT_TITLES = [
     'AURORA // REWRITE',
     'AUR0RA | NRX : R3ALITY BR3AK',
@@ -42,8 +52,32 @@
     'glitch-glitch-mask-slices',
     'glitch-crack-fade'
   ];
+  const HEAVY_EFFECTS = new Set([
+    'glitch-screen-crack-overlay',
+    'glitch-frame-tear',
+    'glitch-screen-shift',
+    'glitch-color-invert-pulse',
+    'glitch-glitch-mask-slices',
+    'glitch-shard-flash'
+  ]);
+  const MEDIUM_EFFECTS = new Set([
+    'glitch-url-bar-glitch',
+    'glitch-fake-browser-shake',
+    'glitch-broken-ui-panels',
+    'glitch-vignette-danger',
+    'glitch-text-fracture',
+    'glitch-glow-burst'
+  ]);
+  const TARGET_EFFECTS = ['fx-shift-x', 'fx-shift-y', 'fx-skew', 'fx-blur', 'fx-invert', 'fx-hue', 'fx-ghost', 'fx-slice', 'fx-pulse', 'fx-noise', 'fx-mirror'];
+  const bodyGlitchClasses = ['glitch-active', 'glitch-soft-reduced', ...GLITCH_EFFECTS];
 
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const controller = new AbortController();
+  const signal = controller.signal;
+  const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const mobileQuery = window.matchMedia('(max-width: 620px)');
+  const reduceMotion = reduceMotionQuery.matches;
+  const isMobileAurora = () => mobileQuery.matches;
+
   const demo = document.getElementById('aurora-demo-audio');
   const gate = document.querySelector('[data-entry-gate]');
   const gateStart = document.querySelector('[data-entry-start]');
@@ -56,15 +90,21 @@
   const urlStatus = document.querySelector('[data-url-status]');
   const exclusive = Array.from(document.querySelectorAll('[data-exclusive-audio]'));
   const targets = Array.from(document.querySelectorAll('[data-glitch-target]'));
-  const oldTargetEffects = ['fx-shift-x', 'fx-shift-y', 'fx-skew', 'fx-blur', 'fx-invert', 'fx-hue', 'fx-ghost', 'fx-slice', 'fx-pulse', 'fx-noise', 'fx-mirror'];
-  const bodyGlitchClasses = ['glitch-active', 'glitch-soft-reduced', ...GLITCH_EFFECTS];
+  const kineticElements = Array.from(document.querySelectorAll('[data-kinetic]'));
+  const lightboxButtons = Array.from(document.querySelectorAll('[data-lightbox]'));
+  const lightboxDialog = document.querySelector('[data-lightbox-dialog]');
+  const lightboxImage = document.querySelector('[data-lightbox-image]');
+  const lightboxClose = document.querySelector('[data-lightbox-close]');
 
   let demoWasPlaying = false;
   let loopSession = 0;
-  let timeline = buildGlitchTimeline();
-  let firedEvents = new Set();
-  let activeGlitches = new Map();
-  let activeSignature = '';
+  let timeline = [];
+  let timelineBuilt = false;
+  let nextGlitchIndex = 0;
+  let runningEvents = [];
+  let rafId = 0;
+  let renderSignature = '';
+  let targetSignature = '';
   let lastAudioTime = 0;
 
   function randomBetween(min, max) {
@@ -75,194 +115,405 @@
     return [...items].sort(() => Math.random() - 0.5);
   }
 
-  function sampleEffects() {
-    if (reduceMotion) return ['glitch-soft-reduced', Math.random() > 0.45 ? 'glitch-corrupted-title' : 'glitch-url-bar-corrupt-text'];
-    const amount = Math.random() > 0.66 ? 3 : 2;
-    return shuffle(GLITCH_EFFECTS).slice(0, amount);
+  function beatToSeconds(beat) {
+    return beat * BEAT_DURATION;
+  }
+
+  function secondsToBeat(seconds) {
+    return seconds / BEAT_DURATION;
+  }
+
+  function quantizeToBeat(seconds) {
+    return beatToSeconds(Math.round(secondsToBeat(seconds)));
+  }
+
+  function quantizeToHalfBeat(seconds) {
+    return Math.round(seconds / HALF_BEAT) * HALF_BEAT;
+  }
+
+  function beatInMeasure(absoluteBeat) {
+    return ((Math.floor(absoluteBeat) - 1) % 4) + 1;
+  }
+
+  function getIntensity(beatPosition, hasHalfBeat) {
+    if (hasHalfBeat) return 'anticipation';
+    if (beatPosition === 1) return 'strong';
+    if (beatPosition === 3) return 'medium';
+    return 'light';
+  }
+
+  function normalizeEffects(effects) {
+    if (reduceMotion) {
+      return ['glitch-soft-reduced', effects.includes('glitch-corrupted-title') ? 'glitch-corrupted-title' : 'glitch-url-bar-corrupt-text'];
+    }
+
+    const maxEffects = isMobileAurora() ? 2 : 3;
+    const normalized = [];
+    let heavyCount = 0;
+    let mediumCount = 0;
+
+    effects.forEach((effect) => {
+      if (normalized.length >= maxEffects || normalized.includes(effect)) return;
+      if (HEAVY_EFFECTS.has(effect)) {
+        if (heavyCount >= 1) return;
+        heavyCount += 1;
+      }
+      if (MEDIUM_EFFECTS.has(effect)) {
+        if (heavyCount && mediumCount >= 1) return;
+        mediumCount += 1;
+      }
+      normalized.push(effect);
+    });
+
+    return normalized.length ? normalized : ['glitch-text-rgb-split'];
+  }
+
+  function sampleEffects(intensity) {
+    const pools = {
+      strong: ['glitch-screen-crack-overlay', 'glitch-frame-tear', 'glitch-screen-shift', 'glitch-corrupted-title', 'glitch-url-bar-glitch', 'glitch-fake-browser-shake', 'glitch-glow-burst'],
+      medium: ['glitch-vignette-danger', 'glitch-shard-flash', 'glitch-broken-ui-panels', 'glitch-text-fracture', 'glitch-url-bar-glitch'],
+      light: ['glitch-text-rgb-split', 'glitch-text-jitter', 'glitch-text-color-flash', 'glitch-glitch-mask-slices', 'glitch-random-word-accent'],
+      anticipation: ['glitch-url-bar-corrupt-text', 'glitch-text-jitter', 'glitch-frame-tear', 'glitch-glitch-mask-slices']
+    };
+    const amount = intensity === 'strong' ? 3 : 2;
+    return normalizeEffects(shuffle(pools[intensity]).slice(0, amount + 1));
+  }
+
+  function buildBpmGlitchTimeline() {
+    loopSession += 1;
+    const beats = [];
+    const beatSpan = GLITCH_END_BEAT - GLITCH_START_BEAT - 2;
+    for (let index = 0; index < TOTAL_GLITCH_EVENTS; index += 1) {
+      const base = GLITCH_START_BEAT + Math.round((index * beatSpan) / (TOTAL_GLITCH_EVENTS - 1));
+      let adjusted = Math.min(GLITCH_END_BEAT - 1, Math.max(GLITCH_START_BEAT, base));
+      while (beats.includes(adjusted) && adjusted < GLITCH_END_BEAT - 1) adjusted += 1;
+      beats.push(adjusted);
+    }
+
+    const halfBeatSlots = new Set(shuffle(Array.from({ length: TOTAL_GLITCH_EVENTS - 1 }, (_, index) => index + 1)).slice(0, reduceMotion ? 2 : 4));
+
+    return beats.map((baseBeat, index) => {
+      const useHalfBeat = halfBeatSlots.has(index) && beatInMeasure(baseBeat) !== 1;
+      const beat = useHalfBeat ? baseBeat + 0.5 : baseBeat;
+      const position = beatInMeasure(beat);
+      const intensity = getIntensity(position, useHalfBeat);
+      const durationBeats = [4, 5, 6][Math.floor(Math.random() * 3)];
+      const time = useHalfBeat ? quantizeToHalfBeat(beatToSeconds(beat)) : quantizeToBeat(beatToSeconds(beat));
+      const targetIndex = Math.floor(Math.random() * Math.max(targets.length, 1));
+      const effects = sampleEffects(intensity);
+
+      return {
+        id: `${loopSession}-${index}`,
+        index: index + 1,
+        beat,
+        time,
+        endTime: time + durationBeats * BEAT_DURATION,
+        durationBeats,
+        durationMs: Math.round(durationBeats * BEAT_DURATION * 1000),
+        beatInMeasure: position,
+        intensity,
+        effects,
+        targetIndex,
+        target: targets[targetIndex] || null,
+        targetEffect: reduceMotion ? '' : TARGET_EFFECTS[(index + targetIndex) % TARGET_EFFECTS.length],
+        x: `${Math.round(randomBetween(8, 92))}%`,
+        y: `${Math.round(randomBetween(10, 86))}%`,
+        offset: `${Math.round(randomBetween(3, isMobileAurora() ? 8 : 14)) * (Math.random() > 0.5 ? 1 : -1)}px`
+      };
+    }).sort((a, b) => a.time - b.time);
   }
 
   function buildGlitchTimeline() {
-    const span = STRONG_END - STRONG_START;
-    return Array.from({ length: GLITCH_COUNT }, (_, index) => {
-      const cell = span / GLITCH_COUNT;
-      const start = STRONG_START + index * cell + randomBetween(0, cell * 0.72);
-      const durationMs = Math.round(randomBetween(1000, 2000));
-      return {
-        id: `${Date.now()}-${loopSession}-${index}`,
-        index: index + 1,
-        start: Math.min(start, STRONG_END - 0.22),
-        durationMs,
-        effects: sampleEffects(),
-        targetIndex: Math.floor(Math.random() * Math.max(targets.length, 1)),
-        x: `${Math.round(randomBetween(8, 92))}%`,
-        y: `${Math.round(randomBetween(10, 86))}%`,
-        offset: `${Math.round(randomBetween(4, 16)) * (Math.random() > 0.5 ? 1 : -1)}px`
-      };
-    }).sort((a, b) => a.start - b.start);
+    return buildBpmGlitchTimeline();
+  }
+
+  function ensureTimeline() {
+    if (timelineBuilt) return;
+    timeline = buildGlitchTimeline();
+    timelineBuilt = true;
+    nextGlitchIndex = 0;
+    runningEvents = [];
+  }
+
+  function resetTimeline() {
+    timeline = [];
+    timelineBuilt = false;
+    nextGlitchIndex = 0;
+    runningEvents = [];
+    clearGlitchState();
   }
 
   function formatTime(value) {
     if (!Number.isFinite(value)) return '00:00';
-    const m = Math.floor(value / 60);
-    const s = Math.floor(value % 60);
-    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    const minutes = Math.floor(value / 60);
+    const seconds = Math.floor(value % 60);
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
 
-  document.querySelectorAll('[data-kinetic]').forEach((element) => {
-    if (element.dataset.kineticReady === 'true') return;
-    const text = element.textContent;
-    element.dataset.kineticReady = 'true';
-    element.setAttribute('aria-label', text.trim());
-    element.textContent = '';
-    Array.from(text).forEach((char, index) => {
-      const span = document.createElement('span');
-      span.className = 'kinetic-char';
-      span.style.setProperty('--char-i', index);
-      span.style.setProperty('--char-delay', `${index * -0.035}s`);
-      span.style.setProperty('--dissolve-delay', `${index * 0.02}s`);
-      span.setAttribute('aria-hidden', 'true');
-      span.textContent = char === ' ' ? '\u00a0' : char;
-      element.appendChild(span);
-    });
-  });
-
-  async function startDemo() {
+  function updatePlaybackUi() {
     if (!demo) return;
-    try {
-      await demo.play();
-      gate.hidden = true;
-      toggle.textContent = 'II';
-      toggle.setAttribute('aria-label', 'Pausar musica');
-    } catch (error) {
-      gate.hidden = false;
-    }
-  }
-
-  function resetTimeline() {
-    loopSession += 1;
-    timeline = buildGlitchTimeline();
-    firedEvents = new Set();
-    clearGlitchState();
-  }
-
-  function applyGlitchRender() {
-    bodyGlitchClasses.forEach((className) => document.body.classList.remove(className));
-    document.body.classList.toggle('glitch-active', activeGlitches.size > 0);
-    activeGlitches.forEach((event) => {
-      event.effects.forEach((effect) => document.body.classList.add(effect));
-    });
-
-    if (!activeGlitches.size) {
-      document.title = ORIGINAL_TITLE;
-      if (themeMeta) themeMeta.setAttribute('content', '#8d48ff');
-      if (urlText) urlText.textContent = URL_NORMAL;
-      if (urlStatus) urlStatus.textContent = 'SECURE // AURORA';
-      return;
-    }
-
-    const latest = Array.from(activeGlitches.values()).at(-1);
-    document.body.style.setProperty('--glitch-duration', `${latest.durationMs}ms`);
-    document.body.style.setProperty('--glitch-x', latest.x);
-    document.body.style.setProperty('--glitch-y', latest.y);
-    document.body.style.setProperty('--glitch-offset', latest.offset);
-    if (themeMeta) themeMeta.setAttribute('content', THEME_COLORS[Math.floor(Math.random() * THEME_COLORS.length)]);
-
-    if (latest.effects.includes('glitch-corrupted-title') || Math.random() > 0.52) {
-      document.title = CORRUPT_TITLES[Math.floor(Math.random() * CORRUPT_TITLES.length)];
-    }
-    if (urlText && (latest.effects.includes('glitch-url-bar-corrupt-text') || Math.random() > 0.5)) {
-      urlText.textContent = CORRUPT_URLS[Math.floor(Math.random() * CORRUPT_URLS.length)];
-    }
-    if (urlStatus) urlStatus.textContent = `REWRITE EVENT ${String(latest.index).padStart(2, '0')} / 40`;
-  }
-
-  function triggerRandomGlitch(event) {
-    const current = {
-      ...event,
-      effects: event.effects.length ? event.effects : sampleEffects(),
-      durationMs: Math.round(randomBetween(1000, 2000))
-    };
-    activeGlitches.set(current.id, current);
-    applyGlitchRender();
-    window.setTimeout(() => {
-      activeGlitches.delete(current.id);
-      applyGlitchRender();
-    }, current.durationMs);
-  }
-
-  function clearGlitchState() {
-    activeGlitches.clear();
-    activeSignature = '';
-    targets.forEach((target) => {
-      oldTargetEffects.forEach((effect) => target.classList.remove(effect));
-      target.removeAttribute('data-glitch-event');
-    });
-    applyGlitchRender();
-  }
-
-  function scheduleAuroraGlitches(currentTime) {
-    if (reduceMotion && firedEvents.size >= 12) return;
-    if (currentTime < STRONG_START || currentTime >= STRONG_END) return;
-    timeline.forEach((event) => {
-      if (!firedEvents.has(event.id) && currentTime >= event.start) {
-        firedEvents.add(event.id);
-        triggerRandomGlitch(event);
-      }
-    });
+    const duration = Number.isFinite(demo.duration) ? demo.duration : DEFAULT_DURATION;
+    if (timeLabel) timeLabel.textContent = `${formatTime(demo.currentTime)} / ${formatTime(duration)}`;
+    if (progress) progress.style.setProperty('--aurora-progress', String(Math.min(1, demo.currentTime / duration)));
   }
 
   function updatePhases(t) {
-    document.body.classList.toggle('phase-motion', t >= 10 && t < STRONG_START);
-    document.body.classList.toggle('phase-glitch', t >= STRONG_START && t < STRONG_END);
-    document.body.classList.toggle('phase-restore', t >= STRONG_END && t < 124.9);
-    document.body.classList.toggle('phase-chroma', t >= 124.9 && t < 163.22);
-    document.body.classList.toggle('phase-dissolve', t >= 163.22);
-    document.body.classList.toggle('phase-residual', t >= 166.6);
+    page.classList.toggle('phase-motion', t >= 10 && t < GLITCH_START_TIME);
+    page.classList.toggle('phase-glitch', t >= GLITCH_START_TIME && t < GLITCH_END_TIME);
+    page.classList.toggle('phase-restore', t >= GLITCH_END_TIME && t < 124.9);
+    page.classList.toggle('phase-chroma', t >= 124.9 && t < 163.22);
+    page.classList.toggle('phase-dissolve', t >= 163.22);
+    page.classList.toggle('phase-residual', t >= 166.6);
+  }
 
-    if (t + 0.5 < lastAudioTime || (lastAudioTime > STRONG_END && t < STRONG_START)) resetTimeline();
-    lastAudioTime = t;
-    scheduleAuroraGlitches(t);
-
-    const legacyActive = !reduceMotion ? timeline.filter((g) => t >= g.start && t < g.start + g.durationMs / 1000) : [];
-    const signature = legacyActive.map((g) => g.id).join(',');
-    if (signature === activeSignature) return;
-    activeSignature = signature;
-    targets.forEach((target) => oldTargetEffects.forEach((effect) => target.classList.remove(effect)));
-    legacyActive.forEach((g) => {
-      const target = targets[g.targetIndex];
-      const effect = oldTargetEffects[(g.index + g.targetIndex) % oldTargetEffects.length];
-      if (target) {
-        target.classList.add(effect);
-        target.style.setProperty('--fx-duration', `${Math.max(0.18, g.durationMs / 5000)}s`);
-        target.dataset.glitchEvent = String(g.index);
-      }
+  function prepareKineticText() {
+    kineticElements.forEach((element) => {
+      if (element.dataset.kineticReady === 'true') return;
+      const text = element.textContent;
+      element.dataset.kineticReady = 'true';
+      element.setAttribute('aria-label', text.trim());
+      element.textContent = '';
+      Array.from(text).forEach((char, index) => {
+        const span = document.createElement('span');
+        span.className = 'kinetic-char';
+        span.style.setProperty('--char-i', index);
+        span.style.setProperty('--char-delay', `${index * -0.035}s`);
+        span.style.setProperty('--dissolve-delay', `${index * 0.02}s`);
+        span.setAttribute('aria-hidden', 'true');
+        span.textContent = char === ' ' ? '\u00a0' : char;
+        element.appendChild(span);
+      });
     });
   }
+
+  function clearTargetEffects() {
+    targets.forEach((target) => {
+      TARGET_EFFECTS.forEach((effect) => target.classList.remove(effect));
+      target.removeAttribute('data-glitch-event');
+    });
+    targetSignature = '';
+  }
+
+  function clearGlitchState() {
+    runningEvents = [];
+    renderSignature = '';
+    page.classList.remove(...bodyGlitchClasses);
+    clearTargetEffects();
+    document.title = ORIGINAL_TITLE;
+    if (themeMeta) themeMeta.setAttribute('content', '#8d48ff');
+    if (urlText) urlText.textContent = URL_NORMAL;
+    if (urlStatus) urlStatus.textContent = 'SECURE // AURORA';
+  }
+
+  function limitActiveEvents(active) {
+    const maxEffects = isMobileAurora() ? 2 : 3;
+    const selected = [];
+    let heavyActive = 0;
+    let effectBudget = 0;
+
+    for (let index = active.length - 1; index >= 0; index -= 1) {
+      const event = active[index];
+      const heavy = event.effects.some((effect) => HEAVY_EFFECTS.has(effect));
+      const eventWeight = Math.max(1, event.effects.length);
+      if (heavy && heavyActive >= 1) continue;
+      if (effectBudget + eventWeight > maxEffects && selected.length) continue;
+      selected.unshift(event);
+      effectBudget += eventWeight;
+      if (heavy) heavyActive += 1;
+      if (selected.length >= 2) break;
+    }
+
+    return selected;
+  }
+
+  function applyGlitchRender(activeEvents) {
+    const limitedActive = limitActiveEvents(activeEvents);
+    const signature = limitedActive.map((event) => `${event.id}:${event.effects.join('+')}`).join('|');
+    if (signature === renderSignature) return;
+    renderSignature = signature;
+
+    page.classList.remove(...bodyGlitchClasses);
+    if (!limitedActive.length) {
+      clearGlitchState();
+      return;
+    }
+
+    const classSet = new Set(['glitch-active']);
+    limitedActive.forEach((event) => event.effects.forEach((effect) => classSet.add(effect)));
+    page.classList.add(...classSet);
+
+    const latest = limitedActive[limitedActive.length - 1];
+    page.style.setProperty('--glitch-duration', `${latest.durationMs}ms`);
+    page.style.setProperty('--glitch-x', latest.x);
+    page.style.setProperty('--glitch-y', latest.y);
+    page.style.setProperty('--glitch-offset', latest.offset);
+    if (themeMeta) themeMeta.setAttribute('content', THEME_COLORS[(latest.index + limitedActive.length) % THEME_COLORS.length]);
+    if (urlStatus) urlStatus.textContent = `REWRITE EVENT ${String(latest.index).padStart(2, '0')} / 40`;
+    if (urlText && (latest.effects.includes('glitch-url-bar-corrupt-text') || latest.index % 2 === 0)) {
+      urlText.textContent = CORRUPT_URLS[latest.index % CORRUPT_URLS.length];
+    }
+    if (latest.effects.includes('glitch-corrupted-title') || latest.index % 3 === 0) {
+      document.title = CORRUPT_TITLES[latest.index % CORRUPT_TITLES.length];
+    }
+
+    const nextTargetSignature = limitedActive.map((event) => `${event.targetIndex}:${event.targetEffect}:${event.index}`).join('|');
+    if (nextTargetSignature === targetSignature) return;
+    clearTargetEffects();
+    targetSignature = nextTargetSignature;
+    limitedActive.forEach((event) => {
+      if (!event.target || !event.targetEffect) return;
+      event.target.classList.add(event.targetEffect);
+      event.target.style.setProperty('--fx-duration', `${Math.max(0.18, event.durationMs / 5000)}s`);
+      event.target.dataset.glitchEvent = String(event.index);
+    });
+  }
+
+  function seekTimelineTo(currentTime) {
+    ensureTimeline();
+    nextGlitchIndex = timeline.findIndex((event) => event.time > currentTime);
+    if (nextGlitchIndex < 0) nextGlitchIndex = timeline.length;
+    runningEvents = timeline.filter((event) => event.time <= currentTime && currentTime < event.endTime);
+    applyGlitchRender(runningEvents);
+  }
+
+  function updateGlitchTimelineFromAudio(currentTime) {
+    if (currentTime < GLITCH_START_TIME) {
+      if (lastAudioTime > GLITCH_END_TIME || currentTime + 0.5 < lastAudioTime) resetTimeline();
+      else clearGlitchState();
+      lastAudioTime = currentTime;
+      return;
+    }
+
+    ensureTimeline();
+
+    if (currentTime >= GLITCH_END_TIME) {
+      nextGlitchIndex = timeline.length;
+      clearGlitchState();
+      lastAudioTime = currentTime;
+      return;
+    }
+
+    if (currentTime + 0.5 < lastAudioTime) seekTimelineTo(currentTime);
+
+    while (nextGlitchIndex < timeline.length && timeline[nextGlitchIndex].time <= currentTime) {
+      runningEvents.push(timeline[nextGlitchIndex]);
+      nextGlitchIndex += 1;
+    }
+
+    runningEvents = runningEvents.filter((event) => currentTime < event.endTime);
+    applyGlitchRender(runningEvents);
+    lastAudioTime = currentTime;
+  }
+
+  function shouldRunTimeline() {
+    return Boolean(demo && !demo.paused && document.visibilityState === 'visible' && demo.currentTime >= GLITCH_START_TIME && demo.currentTime < GLITCH_END_TIME);
+  }
+
+  function stopTimelineLoop(clearState = true) {
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
+    }
+    if (clearState) clearGlitchState();
+  }
+
+  function updateAuroraTimeline() {
+    rafId = 0;
+    if (!shouldRunTimeline()) {
+      stopTimelineLoop(true);
+      return;
+    }
+    updatePlaybackUi();
+    updatePhases(demo.currentTime);
+    updateGlitchTimelineFromAudio(demo.currentTime);
+    rafId = requestAnimationFrame(updateAuroraTimeline);
+  }
+
+  function startTimelineLoop() {
+    if (!shouldRunTimeline()) return;
+    ensureTimeline();
+    if (!rafId) rafId = requestAnimationFrame(updateAuroraTimeline);
+  }
+
+  function handleTimeUpdate() {
+    if (!demo) return;
+    updatePlaybackUi();
+    updatePhases(demo.currentTime);
+    if (demo.currentTime < GLITCH_START_TIME || demo.currentTime >= GLITCH_END_TIME) {
+      stopTimelineLoop(true);
+      if (demo.currentTime >= GLITCH_END_TIME) clearGlitchState();
+      return;
+    }
+    startTimelineLoop();
+  }
+
+  async function startDemo() {
+    if (!demo) return;
+    ensureTimeline();
+    try {
+      await demo.play();
+      if (gate) gate.hidden = true;
+      if (toggle) {
+        toggle.textContent = 'II';
+        toggle.setAttribute('aria-label', 'Pausar musica');
+      }
+      handleTimeUpdate();
+    } catch (error) {
+      if (gate) gate.hidden = false;
+    }
+  }
+
+  function handlePause() {
+    stopTimelineLoop(true);
+    if (toggle) {
+      toggle.textContent = 'PLAY';
+      toggle.setAttribute('aria-label', 'Reproducir musica');
+    }
+  }
+
+  function cleanup() {
+    stopTimelineLoop(true);
+    controller.abort();
+  }
+
+  prepareKineticText();
+  updatePlaybackUi();
 
   toggle?.addEventListener('click', async () => {
     if (!demo) return;
     if (demo.paused) await startDemo();
     else {
       demo.pause();
-      clearGlitchState();
-      toggle.textContent = 'PLAY';
-      toggle.setAttribute('aria-label', 'Reproducir musica');
+      handlePause();
     }
-  });
+  }, { signal });
 
   mute?.addEventListener('click', () => {
-    if (!demo) return;
+    if (!demo || !mute) return;
     demo.muted = !demo.muted;
     mute.textContent = demo.muted ? 'MUTE' : 'SOUND';
     mute.setAttribute('aria-label', demo.muted ? 'Activar sonido' : 'Silenciar musica');
-  });
+  }, { signal });
 
-  gateStart?.addEventListener('click', startDemo);
+  gateStart?.addEventListener('click', startDemo, { signal });
+
+  demo?.addEventListener('play', () => {
+    ensureTimeline();
+    handleTimeUpdate();
+  }, { signal });
+  demo?.addEventListener('timeupdate', handleTimeUpdate, { signal });
   demo?.addEventListener('seeked', () => {
-    if (demo.currentTime < STRONG_START || demo.currentTime > STRONG_END) resetTimeline();
-  });
-  demo?.addEventListener('pause', clearGlitchState);
-  demo?.addEventListener('ended', resetTimeline);
+    if (!demo) return;
+    if (demo.currentTime < GLITCH_START_TIME || demo.currentTime >= GLITCH_END_TIME) {
+      if (demo.currentTime < GLITCH_START_TIME) resetTimeline();
+      stopTimelineLoop(true);
+      return;
+    }
+    seekTimelineTo(demo.currentTime);
+    startTimelineLoop();
+  }, { signal });
+  demo?.addEventListener('pause', handlePause, { signal });
+  demo?.addEventListener('ended', resetTimeline, { signal });
 
   exclusive.forEach((audio) => {
     audio.addEventListener('play', () => {
@@ -272,56 +523,87 @@
       if (demo && !demo.paused) {
         demoWasPlaying = true;
         demo.pause();
-        toggle.textContent = 'PLAY';
-        clearGlitchState();
+        handlePause();
       }
-    });
+    }, { signal });
     audio.addEventListener('ended', () => {
       if (demoWasPlaying) {
         demoWasPlaying = false;
         startDemo();
       }
-    });
+    }, { signal });
     audio.addEventListener('pause', () => {
       if (audio.currentTime > 0 && audio.currentTime < audio.duration && demoWasPlaying) {
         demoWasPlaying = false;
         startDemo();
       }
-    });
+    }, { signal });
   });
 
-  function tick() {
-    if (demo) {
-      const duration = Number.isFinite(demo.duration) ? demo.duration : 178.08;
-      if (timeLabel) timeLabel.textContent = `${formatTime(demo.currentTime)} / ${formatTime(duration)}`;
-      if (progress) progress.style.width = `${Math.min(100, (demo.currentTime / duration) * 100)}%`;
-      updatePhases(demo.currentTime);
-    }
-    requestAnimationFrame(tick);
-  }
-
-  document.querySelectorAll('[data-lightbox]').forEach((button) => button.addEventListener('click', () => {
-    const dialog = document.querySelector('[data-lightbox-dialog]');
-    const image = document.querySelector('[data-lightbox-image]');
-    if (dialog && image) {
-      image.src = button.dataset.lightbox;
-      dialog.showModal();
-    }
-  }));
-  document.querySelector('[data-lightbox-close]')?.addEventListener('click', () => document.querySelector('[data-lightbox-dialog]')?.close());
-  document.querySelector('[data-lightbox-dialog]')?.addEventListener('click', (event) => {
+  lightboxButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      if (!lightboxDialog || !lightboxImage) return;
+      lightboxImage.src = button.dataset.lightbox || '';
+      lightboxDialog.showModal();
+    }, { signal });
+  });
+  lightboxClose?.addEventListener('click', () => lightboxDialog?.close(), { signal });
+  lightboxDialog?.addEventListener('click', (event) => {
     if (event.target === event.currentTarget) event.currentTarget.close();
-  });
+  }, { signal });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState !== 'visible') {
+      stopTimelineLoop(true);
+      return;
+    }
+    handleTimeUpdate();
+  }, { signal });
+  window.addEventListener('pagehide', cleanup, { signal });
+  window.addEventListener('beforeunload', cleanup, { signal });
+  window.addEventListener('load', startDemo, { once: true, signal });
 
   window.__auroraGlitchDebug = {
+    AURORA_BPM,
+    BEAT_DURATION,
+    HALF_BEAT,
+    GLITCH_START_TIME,
+    GLITCH_END_TIME,
+    GLITCH_START_BEAT,
+    GLITCH_END_BEAT,
+    TOTAL_GLITCH_EVENTS,
+    secondsToBeat,
+    beatToSeconds,
+    quantizeToBeat,
+    quantizeToHalfBeat,
+    buildBpmGlitchTimeline,
     buildGlitchTimeline,
-    scheduleAuroraGlitches,
-    triggerRandomGlitch,
+    updateAuroraTimeline,
+    updateGlitchTimelineFromAudio,
+    startTimelineLoop,
+    stopTimelineLoop,
+    resetTimeline,
     clearGlitchState,
-    getTimeline: () => timeline.map((event) => ({ start: event.start, durationMs: event.durationMs, effects: event.effects })),
-    getActiveCount: () => activeGlitches.size
+    seekTimelineTo,
+    getTimeline: () => {
+      ensureTimeline();
+      return timeline.map((event) => ({
+        index: event.index,
+        beat: event.beat,
+        time: event.time,
+        endTime: event.endTime,
+        durationBeats: event.durationBeats,
+        durationMs: event.durationMs,
+        beatInMeasure: event.beatInMeasure,
+        intensity: event.intensity,
+        effects: event.effects
+      }));
+    },
+    getActiveCount: () => runningEvents.length,
+    getNextGlitchIndex: () => nextGlitchIndex,
+    isRafActive: () => Boolean(rafId),
+    getNodeCount: () => document.querySelectorAll('*').length,
+    isMobile: () => isMobileAurora(),
+    isReducedMotion: () => reduceMotion
   };
-
-  window.addEventListener('load', startDemo, { once: true });
-  tick();
 })();
