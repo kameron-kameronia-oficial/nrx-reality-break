@@ -6,6 +6,9 @@
   const AURORA_BPM = 200;
   const BEAT_DURATION = 60 / AURORA_BPM;
   const HALF_BEAT = BEAT_DURATION / 2;
+  const POSTER_MOTION_START = 10;
+  const POSTER_MOTION_DURATION = 16 * BEAT_DURATION * 1000;
+  const POSTER_REDUCED_DURATION = POSTER_MOTION_DURATION * 2;
   const GLITCH_START_TIME = 86.4;
   const GLITCH_END_TIME = 123.6;
   const GLITCH_START_BEAT = 288;
@@ -85,6 +88,7 @@
   const mute = document.querySelector('[data-demo-mute]');
   const timeLabel = document.querySelector('[data-demo-time]');
   const progress = document.querySelector('.aurora-progress');
+  const poster = document.querySelector('.aurora-poster');
   const themeMeta = document.querySelector('meta[name="theme-color"]');
   const urlText = document.querySelector('[data-url-text]');
   const urlStatus = document.querySelector('[data-url-status]');
@@ -103,6 +107,8 @@
   let nextGlitchIndex = 0;
   let runningEvents = [];
   let rafId = 0;
+  let posterAnimation = null;
+  let posterMotionDuration = POSTER_MOTION_DURATION;
   let renderSignature = '';
   let targetSignature = '';
   let lastAudioTime = 0;
@@ -241,6 +247,7 @@
     nextGlitchIndex = 0;
     runningEvents = [];
     clearGlitchState();
+    if (demo && demo.currentTime < POSTER_MOTION_START) resetPosterMotion();
   }
 
   function formatTime(value) {
@@ -255,6 +262,91 @@
     const duration = Number.isFinite(demo.duration) ? demo.duration : DEFAULT_DURATION;
     if (timeLabel) timeLabel.textContent = `${formatTime(demo.currentTime)} / ${formatTime(duration)}`;
     if (progress) progress.style.setProperty('--aurora-progress', String(Math.min(1, demo.currentTime / duration)));
+  }
+
+  function getPosterMotionFrames() {
+    if (reduceMotion) {
+      posterMotionDuration = POSTER_REDUCED_DURATION;
+      return [
+        { transform: 'translate3d(-1%, -1%, 0) scale(1.08)' },
+        { transform: 'translate3d(1.2%, 0.8%, 0) scale(1.095)', offset: 0.5 },
+        { transform: 'translate3d(-0.8%, 1.2%, 0) scale(1.085)' }
+      ];
+    }
+
+    posterMotionDuration = POSTER_MOTION_DURATION;
+    if (isMobileAurora()) {
+      return [
+        { transform: 'translate3d(-3%, -2%, 0) scale(1.1)' },
+        { transform: 'translate3d(3%, 1.5%, 0) scale(1.14)', offset: 0.5 },
+        { transform: 'translate3d(-1.5%, 3%, 0) scale(1.11)' }
+      ];
+    }
+
+    return [
+      { transform: 'translate3d(-6%, -4%, 0) scale(1.13)' },
+      { transform: 'translate3d(5%, 2%, 0) scale(1.18)', offset: 0.5 },
+      { transform: 'translate3d(-2%, 5%, 0) scale(1.14)' }
+    ];
+  }
+
+  function createPosterMotion() {
+    if (!poster || posterAnimation) return posterAnimation;
+    poster.style.transform = '';
+    posterAnimation = poster.animate(getPosterMotionFrames(), {
+      duration: posterMotionDuration,
+      iterations: Infinity,
+      direction: 'alternate',
+      easing: 'ease-in-out',
+      fill: 'both'
+    });
+    posterAnimation.pause();
+    posterAnimation.currentTime = 0;
+    return posterAnimation;
+  }
+
+  function syncPosterMotion() {
+    if (!demo) return;
+    const animation = createPosterMotion();
+    if (!animation) return;
+
+    if (demo.currentTime < POSTER_MOTION_START || demo.ended) {
+      resetPosterMotion();
+      return;
+    }
+
+    const elapsed = Math.max(0, demo.currentTime - POSTER_MOTION_START);
+    animation.playbackRate = Number.isFinite(demo.playbackRate) ? demo.playbackRate : 1;
+    animation.currentTime = (elapsed * 1000) % posterMotionDuration;
+
+    if (!demo.paused && document.visibilityState === 'visible') {
+      animation.play();
+    } else {
+      animation.pause();
+    }
+  }
+
+  function pausePosterMotion() {
+    if (!poster || !posterAnimation) return;
+    const frozenTransform = getComputedStyle(poster).transform;
+    posterAnimation.pause();
+    posterAnimation.cancel();
+    posterAnimation = null;
+    poster.style.transform = frozenTransform;
+  }
+
+  function resetPosterMotion() {
+    if (posterAnimation) {
+      posterAnimation.pause();
+      posterAnimation.cancel();
+      posterAnimation = null;
+    }
+    if (poster) poster.style.transform = '';
+    const animation = createPosterMotion();
+    if (animation) {
+      animation.pause();
+      animation.currentTime = 0;
+    }
   }
 
   function updatePhases(t) {
@@ -439,6 +531,8 @@
     if (!demo) return;
     updatePlaybackUi();
     updatePhases(demo.currentTime);
+    if (!demo.paused) syncPosterMotion();
+    else if (demo.currentTime < POSTER_MOTION_START) resetPosterMotion();
     if (demo.currentTime < GLITCH_START_TIME || demo.currentTime >= GLITCH_END_TIME) {
       stopTimelineLoop(true);
       if (demo.currentTime >= GLITCH_END_TIME) clearGlitchState();
@@ -457,6 +551,7 @@
         toggle.textContent = 'II';
         toggle.setAttribute('aria-label', 'Pausar musica');
       }
+      syncPosterMotion();
       handleTimeUpdate();
     } catch (error) {
       if (gate) gate.hidden = false;
@@ -464,6 +559,7 @@
   }
 
   function handlePause() {
+    pausePosterMotion();
     stopTimelineLoop(true);
     if (toggle) {
       toggle.textContent = 'PLAY';
@@ -473,10 +569,23 @@
 
   function cleanup() {
     stopTimelineLoop(true);
+    pausePosterMotion();
     controller.abort();
   }
 
+  function bindPosterPauseToAudio() {
+    if (!demo || demo.dataset.posterPauseBound === 'true') return;
+    const nativePause = demo.pause.bind(demo);
+    demo.pause = function pauseAuroraDemo() {
+      pausePosterMotion();
+      return nativePause();
+    };
+    demo.dataset.posterPauseBound = 'true';
+  }
+
   prepareKineticText();
+  createPosterMotion();
+  bindPosterPauseToAudio();
   updatePlaybackUi();
 
   toggle?.addEventListener('click', async () => {
@@ -501,9 +610,12 @@
     ensureTimeline();
     handleTimeUpdate();
   }, { signal });
+  demo?.addEventListener('playing', syncPosterMotion, { signal });
   demo?.addEventListener('timeupdate', handleTimeUpdate, { signal });
+  demo?.addEventListener('seeking', syncPosterMotion, { signal });
   demo?.addEventListener('seeked', () => {
     if (!demo) return;
+    syncPosterMotion();
     if (demo.currentTime < GLITCH_START_TIME || demo.currentTime >= GLITCH_END_TIME) {
       if (demo.currentTime < GLITCH_START_TIME) resetTimeline();
       stopTimelineLoop(true);
@@ -512,8 +624,14 @@
     seekTimelineTo(demo.currentTime);
     startTimelineLoop();
   }, { signal });
+  demo?.addEventListener('ratechange', syncPosterMotion, { signal });
+  demo?.addEventListener('loadedmetadata', syncPosterMotion, { signal });
+  demo?.addEventListener('pause', pausePosterMotion, { signal, capture: true });
   demo?.addEventListener('pause', handlePause, { signal });
-  demo?.addEventListener('ended', resetTimeline, { signal });
+  demo?.addEventListener('ended', () => {
+    resetPosterMotion();
+    resetTimeline();
+  }, { signal });
 
   exclusive.forEach((audio) => {
     audio.addEventListener('play', () => {
@@ -555,6 +673,7 @@
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState !== 'visible') {
       stopTimelineLoop(true);
+      pausePosterMotion();
       return;
     }
     handleTimeUpdate();
@@ -572,6 +691,8 @@
     GLITCH_START_BEAT,
     GLITCH_END_BEAT,
     TOTAL_GLITCH_EVENTS,
+    POSTER_MOTION_START,
+    POSTER_MOTION_DURATION,
     secondsToBeat,
     beatToSeconds,
     quantizeToBeat,
@@ -582,6 +703,10 @@
     updateGlitchTimelineFromAudio,
     startTimelineLoop,
     stopTimelineLoop,
+    createPosterMotion,
+    syncPosterMotion,
+    pausePosterMotion,
+    resetPosterMotion,
     resetTimeline,
     clearGlitchState,
     seekTimelineTo,
@@ -602,6 +727,13 @@
     getActiveCount: () => runningEvents.length,
     getNextGlitchIndex: () => nextGlitchIndex,
     isRafActive: () => Boolean(rafId),
+    getPosterAnimationState: () => ({
+      exists: Boolean(posterAnimation),
+      playState: posterAnimation ? posterAnimation.playState : 'missing',
+      currentTime: posterAnimation ? posterAnimation.currentTime : null,
+      duration: posterMotionDuration,
+      transform: poster ? getComputedStyle(poster).transform : ''
+    }),
     getNodeCount: () => document.querySelectorAll('*').length,
     isMobile: () => isMobileAurora(),
     isReducedMotion: () => reduceMotion
