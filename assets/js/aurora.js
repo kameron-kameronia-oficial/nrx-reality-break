@@ -6,9 +6,9 @@
   const AURORA_BPM = 200;
   const BEAT_DURATION = 60 / AURORA_BPM;
   const HALF_BEAT = BEAT_DURATION / 2;
-  const POSTER_MOTION_START = 10;
-  const POSTER_MOTION_DURATION = 16 * BEAT_DURATION * 1000;
-  const POSTER_REDUCED_DURATION = POSTER_MOTION_DURATION * 2;
+  const POSTER_MOTION_START = 0;
+  const POSTER_MOTION_DURATION = 16000;
+  const POSTER_REDUCED_DURATION = 22000;
   const GLITCH_START_TIME = 86.4;
   const GLITCH_END_TIME = 123.6;
   const GLITCH_START_BEAT = 288;
@@ -268,25 +268,25 @@
     if (reduceMotion) {
       posterMotionDuration = POSTER_REDUCED_DURATION;
       return [
-        { transform: 'translate3d(-1%, -1%, 0) scale(1.08)' },
-        { transform: 'translate3d(1.2%, 0.8%, 0) scale(1.095)', offset: 0.5 },
-        { transform: 'translate3d(-0.8%, 1.2%, 0) scale(1.085)' }
+        { transform: 'translate3d(0, -1.2%, 0) scale(1.08)' },
+        { transform: 'translate3d(0, 1.2%, 0) scale(1.095)', offset: 0.5 },
+        { transform: 'translate3d(0, -1.2%, 0) scale(1.08)' }
       ];
     }
 
     posterMotionDuration = POSTER_MOTION_DURATION;
     if (isMobileAurora()) {
       return [
-        { transform: 'translate3d(-3%, -2%, 0) scale(1.1)' },
-        { transform: 'translate3d(3%, 1.5%, 0) scale(1.14)', offset: 0.5 },
-        { transform: 'translate3d(-1.5%, 3%, 0) scale(1.11)' }
+        { transform: 'translate3d(0, -3%, 0) scale(1.1)' },
+        { transform: 'translate3d(0, 3%, 0) scale(1.14)', offset: 0.5 },
+        { transform: 'translate3d(0, -3%, 0) scale(1.1)' }
       ];
     }
 
     return [
-      { transform: 'translate3d(-6%, -4%, 0) scale(1.13)' },
-      { transform: 'translate3d(5%, 2%, 0) scale(1.18)', offset: 0.5 },
-      { transform: 'translate3d(-2%, 5%, 0) scale(1.14)' }
+      { transform: 'translate3d(0, -5%, 0) scale(1.13)' },
+      { transform: 'translate3d(0, 5%, 0) scale(1.18)', offset: 0.5 },
+      { transform: 'translate3d(0, -5%, 0) scale(1.13)' }
     ];
   }
 
@@ -315,9 +315,7 @@
       return;
     }
 
-    const elapsed = Math.max(0, demo.currentTime - POSTER_MOTION_START);
     animation.playbackRate = Number.isFinite(demo.playbackRate) ? demo.playbackRate : 1;
-    animation.currentTime = (elapsed * 1000) % posterMotionDuration;
 
     if (!demo.paused && document.visibilityState === 'visible') {
       animation.play();
