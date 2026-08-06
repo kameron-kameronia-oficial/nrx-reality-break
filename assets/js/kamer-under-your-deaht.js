@@ -172,15 +172,7 @@
   menuAudio.addEventListener("play", setMenuState);
   menuAudio.addEventListener("pause", setMenuState);
 
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      hiddenWasPlaying = !menuAudio.paused;
-      menuAudio.pause();
-      trackAudios.forEach(audio => audio.pause());
-    } else if (hiddenWasPlaying && !menuManuallyPaused) {
-      playMenu();
-    }
-  });
+  /* NRX: la música continúa al ocultar o desenfocar la pestaña. */
 
   window.addEventListener("pagehide", () => {
     menuAudio.pause();

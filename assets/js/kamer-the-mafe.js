@@ -77,9 +77,5 @@
     });
   });
 
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden && activeAudio && !activeAudio.paused) {
-      activeAudio.pause();
-    }
-  });
+  /* NRX: la música continúa al ocultar o desenfocar la pestaña. */
 })();
