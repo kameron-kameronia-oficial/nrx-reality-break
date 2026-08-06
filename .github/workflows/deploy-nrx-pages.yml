@@ -1,0 +1,71 @@
+name: Deploy NRX Wiki to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: nrx-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Prepare static NRX site
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          rm -rf _site
+          mkdir -p _site
+
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='_site/' \
+            --exclude='originals/' \
+            --exclude='*.zip' \
+            --exclude='*.ps1' \
+            --exclude='*.cmd' \
+            ./ _site/
+
+          touch _site/.nojekyll
+
+          test -f _site/index.html
+          test -f _site/personajes/kamer-scrapped-week-2.html
+          test -f _site/personajes/kamer-scrapped-the-mafe.html
+          test -f _site/assets/css/kamer-under-your-deaht.css
+          test -f _site/assets/css/kamer-the-mafe.css
+          test -f _site/assets/js/kamer-under-your-deaht.js
+          test -f _site/assets/js/kamer-the-mafe.js
+
+          echo "Static artifact prepared successfully."
+          du -sh _site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
