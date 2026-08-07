@@ -1,3 +1,5 @@
+# NRX : Reality Break
+# Los buscadores pueden leer las páginas para procesar sus etiquetas noindex.
+# No se publica ningún sitemap mientras la wiki está en revisión interna.
 User-agent: *
 Allow: /
-Sitemap: https://kameron-kameronia-oficial.github.io/nrx-reality-break/sitemap.xml
