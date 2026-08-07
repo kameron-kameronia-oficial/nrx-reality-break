@@ -8,55 +8,82 @@
 <!-- NRX_UNLISTED_MODE_END -->
 <style id="nrx-camila-special-style">
 :root{
-  --camila-banner-opacity: 1;
-  --camila-banner-translate: 0px;
-  --camila-banner-scale: 1.05;
+  --camila-bg-opacity: .96;
+  --camila-bg-translate: 0px;
+  --camila-bg-scale: 1.08;
 }
 
-.camila-special-section{
+html, body {
+  background: #030912;
+}
+
+body {
   position: relative;
-  min-height: 120vh;
-  overflow: clip;
-  isolation: isolate;
-  border-top: 1px solid rgba(131,245,184,.18);
-  border-bottom: 1px solid rgba(131,245,184,.18);
 }
 
-.camila-special-backdrop{
-  position: sticky;
-  top: 0;
-  height: 100vh;
+.camila-page-backdrop{
+  position: fixed;
+  inset: 0;
   z-index: 0;
+  overflow: hidden;
   pointer-events: none;
 }
 
-.camila-special-backdrop::after{
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(2,7,13,.32), rgba(2,7,13,.82));
-}
-
-.camila-special-image{
+.camila-page-image{
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: var(--camila-banner-opacity);
-  transform: translateY(var(--camila-banner-translate)) scale(var(--camila-banner-scale));
+  opacity: var(--camila-bg-opacity);
+  transform: translateY(var(--camila-bg-translate)) scale(var(--camila-bg-scale));
   transition: opacity .18s linear, transform .18s linear;
   filter: saturate(1.08) contrast(1.04);
 }
 
-.camila-special-content{
+.camila-page-overlay{
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(2,7,13,.34), rgba(2,7,13,.80));
+}
+
+body > .skip,
+body > .scanline,
+body > .site-header,
+body > main,
+body > footer{
   position: relative;
-  z-index: 1;
-  min-height: 120vh;
+  z-index: 2;
+}
+
+.page-hero,
+.section{
+  background: transparent !important;
+}
+
+.dossier-main,
+.infobox,
+.card,
+.audio-panel,
+#scrapped,
+.actions .btn{
+  backdrop-filter: blur(6px);
+}
+
+.camila-special-section{
+  position: relative;
+  min-height: 42vh;
+  overflow: visible;
+  isolation: auto;
+  border: 0;
+  padding-top: 4vh;
+  padding-bottom: 6vh;
+}
+
+.camila-special-content{
+  min-height: 42vh;
   display: flex;
   align-items: flex-end;
-  padding-top: 8vh;
-  padding-bottom: 12vh;
 }
 
 .camila-special-panel{
@@ -81,10 +108,10 @@
 }
 
 .camila-audio-toggle{
-  position: absolute;
-  top: 18px;
+  position: fixed;
+  top: 92px;
   right: 18px;
-  z-index: 3;
+  z-index: 30;
   width: 34px;
   height: 34px;
   display: grid;
@@ -105,30 +132,30 @@
 }
 
 @media (max-width: 720px){
-  .camila-special-section{min-height: 108vh;}
-  .camila-special-content{min-height: 108vh; padding-bottom: 10vh;}
+  .camila-special-section{min-height: 36vh; padding-bottom: 4vh;}
+  .camila-special-content{min-height: 36vh;}
   .camila-special-panel{padding: 18px 18px 16px;}
-  .camila-audio-toggle{top: 12px; right: 12px; width: 30px; height: 30px; font-size: 11px;}
+  .camila-audio-toggle{top: 76px; right: 12px; width: 30px; height: 30px; font-size: 11px;}
 }
 </style>
 <!-- NRX_CAMILA_SCRIPT_START -->
 <script src="../assets/js/nrx-camila-special.js" defer></script>
 <!-- NRX_CAMILA_SCRIPT_END -->
-</head><body style="--accent:#65d8ff;--accent-rgb:101,216,255"><a class="skip" href="#contenido">Saltar al contenido</a><div class="scanline"></div><header class="site-header"><div class="wrap header-row"><a class="brand" href="../index.html" aria-label="NRX Reality Break, inicio"><img src="../assets/img/logo.svg" alt="NRX : Reality Break"></a><button class="menu-btn" type="button" aria-expanded="false" aria-label="Abrir menú">☰</button><nav class="nav" aria-label="Navegación principal"><a href="../index.html">Inicio</a><a href="../personajes.html" aria-current="page">Personajes</a><a href="../canciones.html">Canciones</a><a href="../mecanicas.html">Mecánicas</a><a href="../desarrollo.html">Desarrollo</a><button class="search-open" type="button" aria-label="Buscar">Buscar <kbd>Ctrl K</kbd></button></nav></div></header><main id="contenido"><section class="page-hero"><div class="wrap"><div class="breadcrumbs"><a href="../index.html">Inicio</a><span>/</span><a href="../personajes.html">Personajes</a><span>/</span><b>Camila</b></div><span class="eyebrow">Archivo 02 // ARCHIVO PRINCIPAL</span><h1>Camila</h1><p class="lede">Personaje central de la Temporada 2, ligada a una atmósfera oceánica, inmensa y desconocida.</p></div></section>
+</head><body style="--accent:#65d8ff;--accent-rgb:101,216,255"><!-- NRX_CAMILA_PAGE_BG_START -->
+<div class="camila-page-backdrop" aria-hidden="true" data-camila-page-bg>
+  <img class="camila-page-image" data-camila-page-image src="../assets/img/banners/camila-exclusive-banner.png" alt="" width="1280" height="720" decoding="async" fetchpriority="high">
+  <div class="camila-page-overlay"></div>
+</div>
+<button class="camila-audio-toggle" type="button" data-camila-audio-toggle aria-label="Pausar Dangeragua" aria-pressed="true">❚❚</button>
+<audio id="camila-dangeragua-audio" src="../assets/audio/camila/dangeragua.mp3" preload="auto" loop autoplay></audio>
+<!-- NRX_CAMILA_PAGE_BG_END --><a class="skip" href="#contenido">Saltar al contenido</a><div class="scanline"></div><header class="site-header"><div class="wrap header-row"><a class="brand" href="../index.html" aria-label="NRX Reality Break, inicio"><img src="../assets/img/logo.svg" alt="NRX : Reality Break"></a><button class="menu-btn" type="button" aria-expanded="false" aria-label="Abrir menú">☰</button><nav class="nav" aria-label="Navegación principal"><a href="../index.html">Inicio</a><a href="../personajes.html" aria-current="page">Personajes</a><a href="../canciones.html">Canciones</a><a href="../mecanicas.html">Mecánicas</a><a href="../desarrollo.html">Desarrollo</a><button class="search-open" type="button" aria-label="Buscar">Buscar <kbd>Ctrl K</kbd></button></nav></div></header><main id="contenido"><section class="page-hero"><div class="wrap"><div class="breadcrumbs"><a href="../index.html">Inicio</a><span>/</span><a href="../personajes.html">Personajes</a><span>/</span><b>Camila</b></div><span class="eyebrow">Archivo 02 // ARCHIVO PRINCIPAL</span><h1>Camila</h1><p class="lede">Personaje central de la Temporada 2, ligada a una atmósfera oceánica, inmensa y desconocida.</p></div></section>
 <!-- NRX_CAMILA_SPECIAL_START -->
 <section class="section camila-special-section" data-camila-special>
-  <div class="camila-special-backdrop" aria-hidden="true">
-    <img class="camila-special-image" data-camila-banner-image src="../assets/img/banners/camila-exclusive-banner.png" alt="Banner exclusivo de Camila" width="1280" height="720" decoding="async" fetchpriority="high">
-  </div>
-
-  <button class="camila-audio-toggle" type="button" data-camila-audio-toggle aria-label="Pausar Dangeragua" aria-pressed="true">❚❚</button>
-  <audio id="camila-dangeragua-audio" autoplay playsinline src="../assets/audio/camila/dangeragua.mp3" preload="auto" loop></audio>
-
   <div class="wrap camila-special-content">
     <div class="camila-special-panel">
       <span class="badge">Dangeragua // señal oceánica</span>
       <h2>Camila</h2>
-      <p>Este banner exclusivo queda al fondo de la sección de Camila. Mientras bajas, la imagen se vuelve más transparente y mantiene un efecto especial de profundidad. Dangeragua acompaña toda la sección y puedes pausarla desde el botón pequeño de la esquina derecha.</p>
+      <p>La imagen de Camila ahora permanece como fondo a lo largo de toda su página. Aunque bajes a canciones, mecánicas, galería y el resto del archivo, Camila sigue detrás del contenido como una presencia constante.</p>
     </div>
   </div>
 </section>
