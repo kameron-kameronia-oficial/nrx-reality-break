@@ -7,118 +7,70 @@
   <meta name="bingbot" content="noindex, noarchive, nosnippet, noimageindex">
 <!-- NRX_UNLISTED_MODE_END -->
 <style id="nrx-camila-special-style">
-:root{
-  --camila-bg-opacity: .96;
-  --camila-bg-translate: 0px;
-  --camila-bg-scale: 1.08;
-}
-
-html, body {
-  background: #030912;
+/* NRX_CAMILA_TRUE_BACKGROUND_V4
+   La imagen de Camila es el BACKGROUND REAL de la pagina. */
+html {
+  background: #030912 !important;
 }
 
 body {
   position: relative;
+  background-color: #030912 !important;
+  background-image: url("../assets/img/banners/camila-exclusive-banner.png") !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
+  min-height: 100vh !important;
 }
 
-.camila-page-backdrop{
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
+/* V3 usaba una etiqueta IMG detras. Ya no se usa visualmente. */
+.camila-page-backdrop,
+.camila-special-section {
+  display: none !important;
 }
 
-.camila-page-image{
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: var(--camila-bg-opacity);
-  transform: translateY(var(--camila-bg-translate)) scale(var(--camila-bg-scale));
-  transition: opacity .18s linear, transform .18s linear;
-  filter: saturate(1.08) contrast(1.04);
-}
-
-.camila-page-overlay{
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(2,7,13,.34), rgba(2,7,13,.80));
-}
-
-body > .skip,
-body > .scanline,
-body > .site-header,
+/* Mantiene el fondo de Camila visible detras de TODO el contenido. */
 body > main,
-body > footer{
-  position: relative;
-  z-index: 2;
+.page-hero,
+.section,
+footer,
+.footer {
+  background: transparent !important;
 }
 
-.page-hero,
-.section{
-  background: transparent !important;
+body::before {
+  opacity: .04 !important;
+}
+
+.site-header {
+  background: rgba(3, 9, 18, .72) !important;
+  backdrop-filter: blur(16px);
 }
 
 .dossier-main,
 .infobox,
 .card,
 .audio-panel,
-#scrapped,
-.actions .btn{
-  backdrop-filter: blur(6px);
+.gallery figure,
+#scrapped {
+  background: rgba(5, 11, 18, .72) !important;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
 }
 
-.camila-special-section{
-  position: relative;
-  min-height: 42vh;
-  overflow: visible;
-  isolation: auto;
-  border: 0;
-  padding-top: 4vh;
-  padding-bottom: 6vh;
-}
-
-.camila-special-content{
-  min-height: 42vh;
-  display: flex;
-  align-items: flex-end;
-}
-
-.camila-special-panel{
-  width: min(680px, 100%);
-  padding: 24px 24px 22px;
-  border: 1px solid rgba(131,245,184,.20);
-  border-radius: 24px;
-  background: linear-gradient(180deg, rgba(7,12,19,.64), rgba(7,12,19,.82));
-  backdrop-filter: blur(10px);
-  box-shadow: 0 16px 50px rgba(0,0,0,.30);
-}
-
-.camila-special-panel h2{
-  margin: 0 0 12px;
-  font-size: clamp(2rem, 4vw, 3.4rem);
-}
-
-.camila-special-panel p{
-  margin: 0;
-  max-width: 58ch;
-  color: #d6e3ec;
-}
-
-.camila-audio-toggle{
+.camila-audio-toggle {
   position: fixed;
   top: 92px;
   right: 18px;
-  z-index: 30;
+  z-index: 100;
   width: 34px;
   height: 34px;
   display: grid;
   place-items: center;
   border: 1px solid rgba(255,255,255,.22);
   border-radius: 999px;
-  background: rgba(5,10,16,.55);
+  background: rgba(5,10,16,.60);
   color: #fff;
   font-size: 12px;
   line-height: 1;
@@ -127,15 +79,23 @@ body > footer{
   box-shadow: 0 8px 20px rgba(0,0,0,.35);
 }
 
-.camila-audio-toggle:hover{
-  background: rgba(10,18,28,.76);
+.camila-audio-toggle:hover {
+  background: rgba(10,18,28,.82);
 }
 
-@media (max-width: 720px){
-  .camila-special-section{min-height: 36vh; padding-bottom: 4vh;}
-  .camila-special-content{min-height: 36vh;}
-  .camila-special-panel{padding: 18px 18px 16px;}
-  .camila-audio-toggle{top: 76px; right: 12px; width: 30px; height: 30px; font-size: 11px;}
+@media (max-width: 720px) {
+  body {
+    background-position: center center !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+  }
+  .camila-audio-toggle {
+    top: 76px;
+    right: 12px;
+    width: 30px;
+    height: 30px;
+    font-size: 11px;
+  }
 }
 </style>
 <!-- NRX_CAMILA_SCRIPT_START -->
