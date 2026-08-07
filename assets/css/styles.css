@@ -4,3 +4,675 @@
 @media(max-width:900px){.nav{display:none;position:absolute;left:16px;right:16px;top:68px;flex-direction:column;align-items:stretch;padding:12px;background:#080d14;border:1px solid var(--line);border-radius:16px}.nav.open{display:flex}.menu-btn{display:block}.hero-grid,.feature,.dossier{grid-template-columns:1fr}.hero{padding-top:56px}.system-card{max-width:560px}.infobox{position:static}.grid-3{grid-template-columns:1fr 1fr}.archive-list{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.wrap{width:min(calc(100% - 22px),var(--max))}.brand img{width:152px}.grid-3,.grid-2,.gallery{grid-template-columns:1fr}.section{padding:44px 0}.hero{padding:46px 0 38px}.archive{grid-template-columns:58px 1fr auto}.archive-thumb{width:58px}.section-head{align-items:start;flex-direction:column}.footer-grid{grid-template-columns:1fr}.facts div{grid-template-columns:95px 1fr}.dossier-content{padding:20px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition:none!important}}
+/* NRX CHARACTER CARD ART - START */
+.archive.archive-with-art{
+    position:relative;
+    grid-template-columns:84px minmax(0,1fr) 176px 34px;
+    column-gap:16px;
+    min-height:184px;
+    padding:0 15px;
+    overflow:hidden;
+    isolation:isolate;
+}
+.archive.archive-with-art > .archive-thumb,
+.archive.archive-with-art > div,
+.archive.archive-with-art > .archive-num{
+    position:relative;
+    z-index:3;
+}
+.archive.archive-with-art > div{
+    align-self:center;
+}
+.archive-character{
+    align-self:end;
+    justify-self:center;
+    width:190px;
+    height:184px;
+    object-fit:contain;
+    object-position:center bottom;
+    pointer-events:none;
+    user-select:none;
+    z-index:2;
+    filter:drop-shadow(0 12px 14px rgba(0,0,0,.48));
+    transform-origin:center bottom;
+}
+.archive-character--kamer{
+    transform:translateY(15px) scale(1.03);
+}
+.archive-character--camila{
+    transform:translateY(15px) scale(1.07);
+}
+.archive-character--estefania{
+    transform:translateY(15px) scale(1.04);
+}
+.archive-character--aurora{
+    transform:translateY(16px) scale(1.07);
+}
+
+@media(max-width:1150px) and (min-width:901px){
+    .archive.archive-with-art{
+        grid-template-columns:72px minmax(0,1fr) 135px 30px;
+        column-gap:12px;
+        min-height:170px;
+    }
+    .archive-character{
+        width:155px;
+        height:170px;
+    }
+}
+
+@media(max-width:900px){
+    .archive.archive-with-art{
+        grid-template-columns:84px minmax(0,1fr) 210px 34px;
+        min-height:190px;
+    }
+    .archive-character{
+        width:220px;
+        height:190px;
+    }
+}
+
+@media(max-width:650px){
+    .archive.archive-with-art{
+        grid-template-columns:68px minmax(0,1fr) 30px;
+        min-height:145px;
+        padding:12px;
+    }
+    .archive.archive-with-art > div{
+        padding-right:95px;
+    }
+    .archive-character{
+        position:absolute;
+        right:20px;
+        bottom:-10px;
+        width:145px;
+        height:155px;
+        opacity:.45;
+        transform:none;
+        z-index:1;
+    }
+}
+
+@media(max-width:440px){
+    .archive-character{
+        display:none;
+    }
+    .archive.archive-with-art > div{
+        padding-right:0;
+    }
+}
+/* NRX CHARACTER CARD ART - END */
+/* KAMER SPECIAL START */
+.kamer-season-page{
+    --kamer-leaf:#97ff9a;
+    --kamer-shadow:rgba(7,20,16,.72);
+}
+.kamer-season-page .page-hero{
+    position:relative;
+    overflow:hidden;
+}
+.kamer-season-page .page-hero::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(circle at 16% 26%, rgba(151,255,154,.16), transparent 28%),
+        linear-gradient(120deg, rgba(9,22,13,.38), transparent 54%);
+    pointer-events:none;
+}
+.kamer-season-page .page-hero h1,
+.kamer-season-page .dossier-content h2,
+.kamer-season-page .infobox-head h2,
+.kamer-natural-title{
+    font-family:"Palatino Linotype","Book Antiqua","Georgia",serif;
+    font-style:italic;
+    letter-spacing:-.03em;
+}
+.kamer-season-page .page-hero h1{
+    text-shadow:0 0 26px rgba(151,255,154,.09);
+}
+.kamer-banner-section{
+    padding-top:6px;
+    padding-bottom:26px;
+}
+.kamer-banner-shell{
+    position:relative;
+    min-height:420px;
+    border:1px solid rgba(151,255,154,.22);
+    border-radius:28px;
+    overflow:hidden;
+    background:linear-gradient(160deg, rgba(11,17,25,.92), rgba(5,8,13,.98));
+    box-shadow:0 18px 50px rgba(0,0,0,.28);
+}
+.kamer-banner-shell::before,
+.kamer-banner-shell::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .8s ease, transform .8s ease, filter .8s ease;
+}
+.kamer-banner-image{
+    width:100%;
+    height:420px;
+    object-fit:cover;
+    object-position:center;
+    filter:grayscale(.02) contrast(1.04) saturate(.88);
+}
+.kamer-banner-overlay{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    gap:14px;
+    padding:28px;
+    background:
+        linear-gradient(180deg, rgba(5,8,13,.08) 0%, rgba(5,8,13,.18) 28%, rgba(5,8,13,.74) 76%, rgba(5,8,13,.92) 100%);
+}
+.kamer-natural-badge{
+    width:max-content;
+    background:rgba(151,255,154,.12);
+}
+.kamer-natural-title{
+    font-size:clamp(3rem,7vw,5.6rem);
+    color:#f1fff4;
+    text-shadow:0 0 20px rgba(151,255,154,.12);
+    line-height:.95;
+    margin:0;
+}
+.kamer-natural-copy{
+    max-width:720px;
+    margin:0;
+    color:#d8e7dd;
+    font-size:1.03rem;
+}
+.kamer-audio-panel{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    width:max-content;
+    max-width:100%;
+    padding:12px 14px;
+    border:1px solid rgba(151,255,154,.18);
+    border-radius:18px;
+    background:rgba(3,8,8,.52);
+    backdrop-filter:blur(14px);
+}
+.kamer-audio-toggle{
+    border:1px solid rgba(151,255,154,.34);
+    background:rgba(151,255,154,.12);
+    color:#effff1;
+    border-radius:14px;
+    padding:12px 16px;
+    cursor:pointer;
+    font-weight:700;
+}
+.kamer-audio-toggle:hover{
+    filter:brightness(1.08);
+}
+.kamer-audio-meta{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+.kamer-audio-meta strong{
+    font-size:1.04rem;
+}
+.kamer-audio-meta span{
+    color:#cae0cf;
+    font-size:.96rem;
+}
+.kamer-audio-status{
+    color:#95b19c;
+    font-size:.84rem;
+}
+.kamer-season-page .cover.kamer-cover-banner{
+    aspect-ratio:16/7;
+    object-fit:cover;
+    object-position:center;
+}
+.kamer-season-page .audio-panel{
+    border-color:rgba(151,255,154,.24);
+    background:rgba(7,11,13,.92);
+}
+.kamer-season-page .audio-play{
+    border-color:rgba(151,255,154,.55);
+    color:#dfffdf;
+}
+.kamer-season-page.kamer-phase-roots::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+        linear-gradient(180deg, rgba(0,0,0,.00) 0%, rgba(0,0,0,.08) 28%, rgba(0,0,0,.16) 100%);
+    opacity:1;
+    z-index:4;
+}
+.kamer-season-page.kamer-phase-roots .kamer-banner-shell::before{
+    opacity:.46;
+    background:
+        radial-gradient(circle at 15% 100%, rgba(151,255,154,.24), transparent 24%),
+        radial-gradient(circle at 48% 100%, rgba(151,255,154,.16), transparent 18%),
+        radial-gradient(circle at 82% 100%, rgba(151,255,154,.18), transparent 18%),
+        linear-gradient(120deg, transparent 0 28%, rgba(151,255,154,.10) 29%, transparent 30%),
+        linear-gradient(90deg, transparent 0 48%, rgba(151,255,154,.08) 49%, transparent 50%),
+        linear-gradient(160deg, transparent 0 60%, rgba(151,255,154,.11) 61%, transparent 62%);
+    filter:blur(.25px);
+}
+.kamer-season-page.kamer-phase-roots .kamer-banner-shell::after{
+    content:"▲   ◀   ▼   ▶";
+    display:flex;
+    align-items:flex-start;
+    justify-content:flex-end;
+    padding:22px 26px;
+    color:rgba(244,255,245,.42);
+    letter-spacing:.44em;
+    font-size:1.08rem;
+    text-shadow:0 0 16px rgba(151,255,154,.14);
+    opacity:.78;
+    animation:kamer-soft-glitch 4.4s steps(2,end) infinite;
+}
+.kamer-season-page.kamer-phase-roots .page-hero h1,
+.kamer-season-page.kamer-phase-roots .dossier-content h2{
+    text-shadow:1px 0 0 rgba(151,255,154,.18), -1px 0 0 rgba(255,255,255,.06);
+}
+.kamer-season-page.kamer-phase-wind .page-hero h1,
+.kamer-season-page.kamer-phase-wind .kamer-natural-title,
+.kamer-season-page.kamer-phase-wind .dossier-content h2,
+.kamer-season-page.kamer-phase-wind .infobox-head h2{
+    animation:kamer-wind-sway 3.6s ease-in-out infinite;
+}
+.kamer-season-page.kamer-phase-wind .kamer-banner-shell::before{
+    opacity:.42;
+    background:
+        linear-gradient(105deg, transparent 0%, rgba(220,255,230,.00) 22%, rgba(220,255,230,.16) 32%, rgba(220,255,230,.00) 45%, transparent 100%),
+        repeating-linear-gradient(170deg, rgba(220,255,230,.00) 0 32px, rgba(220,255,230,.11) 33px 34px, rgba(220,255,230,.00) 35px 74px);
+    animation:kamer-wind-sweep 8s linear infinite;
+}
+.kamer-season-page.kamer-phase-wind .kamer-natural-copy,
+.kamer-season-page.kamer-phase-wind .lede,
+.kamer-season-page.kamer-phase-wind .chip{
+    animation:kamer-wind-text 2.8s ease-in-out infinite;
+}
+.kamer-season-page.kamer-phase-calm .kamer-banner-shell::before{
+    opacity:.12;
+    background:linear-gradient(180deg, rgba(255,255,255,.05), transparent 65%);
+    animation:none;
+}
+.kamer-season-page.kamer-phase-calm .kamer-banner-shell::after{
+    opacity:.08;
+    animation:none;
+    transform:none;
+}
+.kamer-season-page.kamer-phase-calm .page-hero h1,
+.kamer-season-page.kamer-phase-calm .kamer-natural-title,
+.kamer-season-page.kamer-phase-calm .dossier-content h2,
+.kamer-season-page.kamer-phase-calm .infobox-head h2,
+.kamer-season-page.kamer-phase-calm .kamer-natural-copy,
+.kamer-season-page.kamer-phase-calm .lede{
+    animation:none;
+    transition:all 1.4s ease;
+    transform:none;
+    letter-spacing:normal;
+}
+@keyframes kamer-soft-glitch{
+    0%,100%{transform:translate(0,0);filter:none}
+    20%{transform:translate(2px,-1px)}
+    40%{transform:translate(-2px,1px)}
+    60%{transform:translate(1px,1px)}
+    80%{transform:translate(-1px,-1px)}
+}
+@keyframes kamer-wind-sway{
+    0%,100%{transform:translateX(0) rotate(0deg)}
+    25%{transform:translateX(6px) rotate(.25deg)}
+    50%{transform:translateX(-5px) rotate(-.2deg)}
+    75%{transform:translateX(4px) rotate(.15deg)}
+}
+@keyframes kamer-wind-text{
+    0%,100%{transform:translateX(0);letter-spacing:normal}
+    50%{transform:translateX(3px);letter-spacing:.02em}
+}
+@keyframes kamer-wind-sweep{
+    from{transform:translateX(-16%)}
+    to{transform:translateX(16%)}
+}
+@media(max-width:900px){
+    .kamer-banner-shell{
+        min-height:360px;
+    }
+    .kamer-banner-image{
+        height:360px;
+    }
+    .kamer-natural-title{
+        font-size:clamp(2.4rem,8vw,4.4rem);
+    }
+}
+@media(max-width:680px){
+    .kamer-banner-overlay{
+        padding:20px;
+    }
+    .kamer-audio-panel{
+        width:100%;
+        flex-direction:column;
+        align-items:flex-start;
+    }
+}
+@media(max-width:480px){
+    .kamer-banner-shell{
+        min-height:320px;
+    }
+    .kamer-banner-image{
+        height:320px;
+    }
+}
+/* KAMER SPECIAL END */
+/* KAMER EXCLUSIVE DEMO START */
+.kamer-season-page{
+    --kamer-leaf:#94ff9f;
+    --kamer-mint:#baf8d1;
+    --kamer-moss:#274d35;
+    --kamer-earth:#10150f;
+    --kamer-signal:rgba(148,255,159,.72);
+}
+.kamer-exclusive-section{
+    position:relative;
+    overflow:hidden;
+    padding-top:10px;
+    padding-bottom:34px;
+    isolation:isolate;
+}
+.kamer-exclusive-section::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(circle at 12% 8%, rgba(148,255,159,.10), transparent 24%),
+        radial-gradient(circle at 86% 92%, rgba(186,248,209,.08), transparent 28%),
+        linear-gradient(180deg, transparent, rgba(10,18,13,.32));
+    pointer-events:none;
+    opacity:.85;
+    z-index:-2;
+}
+.kamer-exclusive-section .wrap{
+    position:relative;
+}
+.kamer-exclusive-field{
+    position:absolute;
+    inset:-44px -18px -30px;
+    pointer-events:none;
+    z-index:0;
+}
+.kamer-banner-shell{
+    position:relative;
+    z-index:2;
+    width:100%;
+    max-width:1320px;
+    margin:0 auto;
+    min-height:0;
+    aspect-ratio:21/9;
+    border:1px solid rgba(148,255,159,.30);
+    border-radius:18px;
+    overflow:hidden;
+    background:#061008;
+    box-shadow:0 22px 58px rgba(0,0,0,.34), 0 0 0 1px rgba(186,248,209,.04) inset;
+    user-select:none;
+    -webkit-user-select:none;
+    animation:kamer-banner-unlock 1100ms cubic-bezier(.2,.7,.2,1) both;
+}
+.kamer-exclusive-section .kamer-banner-shell::before,
+.kamer-exclusive-section .kamer-banner-shell::after{
+    content:none!important;
+}
+.kamer-season-page.kamer-phase-roots::after{
+    content:none!important;
+}
+.kamer-banner-image{
+    width:100%;
+    height:100%;
+    aspect-ratio:21/9;
+    display:block;
+    object-fit:cover;
+    object-position:center;
+    filter:none;
+    background:#061008;
+    user-select:none;
+    -webkit-user-drag:none;
+}
+.kamer-banner-shield{
+    display:none;
+}
+.kamer-signal-dock{
+    position:relative;
+    z-index:3;
+    display:grid;
+    grid-template-columns:minmax(120px,1fr) auto auto minmax(120px,240px) auto;
+    align-items:center;
+    gap:8px;
+    width:min(100%,680px);
+    margin:12px auto 0;
+    padding:8px 10px;
+    border:1px solid rgba(148,255,159,.20);
+    border-radius:12px;
+    background:linear-gradient(135deg, rgba(7,15,10,.94), rgba(11,19,16,.86));
+    box-shadow:0 10px 24px rgba(0,0,0,.16);
+}
+.kamer-signal-copy{
+    min-width:0;
+}
+.kamer-signal-copy strong{
+    display:block;
+    font-size:.74rem;
+    line-height:1.1;
+    color:#effff2;
+}
+.kamer-signal-copy small{
+    display:block;
+    color:#9eb9a6;
+    font-size:.66rem;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.kamer-signal-button{
+    width:32px;
+    height:32px;
+    display:grid;
+    place-items:center;
+    border:1px solid rgba(148,255,159,.36);
+    border-radius:9px;
+    background:rgba(148,255,159,.10);
+    color:#effff2;
+    cursor:pointer;
+    font-weight:850;
+    font-size:.68rem;
+    line-height:1;
+}
+.kamer-signal-button:hover,
+.kamer-signal-button:focus-visible{
+    border-color:rgba(186,248,209,.72);
+    background:rgba(148,255,159,.16);
+    outline:none;
+}
+.kamer-progress-wrap{
+    min-width:0;
+}
+.kamer-progress{
+    width:100%;
+    accent-color:var(--kamer-leaf);
+    cursor:pointer;
+}
+.kamer-time{
+    color:#cde5d2;
+    font:700 .68rem ui-monospace,Consolas,monospace;
+    white-space:nowrap;
+}
+.kamer-root,
+.kamer-air,
+.kamer-leaf,
+.kamer-arrow{
+    position:absolute;
+    opacity:0;
+    transform:translate3d(0,0,0);
+    will-change:transform,opacity;
+}
+.kamer-root{
+    width:220px;
+    height:1px;
+    background:linear-gradient(90deg, transparent, rgba(148,255,159,.0) 8%, rgba(148,255,159,.55), transparent);
+    transform-origin:left center;
+}
+.root-a{left:-24px;top:20%;rotate:18deg}.root-b{right:-38px;top:58%;rotate:162deg}.root-c{left:8%;bottom:14%;rotate:-18deg}
+.kamer-arrow{
+    color:rgba(186,248,209,.62);
+    font:900 24px ui-monospace,Consolas,monospace;
+    text-shadow:0 0 18px rgba(148,255,159,.20);
+}
+.arrow-a{right:7%;top:18%}.arrow-b{left:6%;bottom:22%}
+.kamer-air{
+    width:34%;
+    height:1px;
+    background:linear-gradient(90deg, transparent, rgba(230,255,235,.42), transparent);
+}
+.air-a{left:4%;top:38%}.air-b{right:2%;bottom:24%}
+.kamer-leaf{
+    width:11px;
+    height:18px;
+    border-radius:100% 0 100% 0;
+    background:linear-gradient(135deg, rgba(186,248,209,.9), rgba(148,255,159,.28));
+    box-shadow:0 0 14px rgba(148,255,159,.18);
+}
+.leaf-a{left:13%;top:12%}.leaf-b{right:18%;top:32%}.leaf-c{left:32%;bottom:6%}
+.kamer-phase-live .kamer-leaf{
+    animation:kamer-organic-drift 9s ease-in-out infinite;
+    opacity:.24;
+}
+.kamer-phase-live .kamer-exclusive-section::before{
+    animation:kamer-breath 6.5s ease-in-out infinite;
+}
+.kamer-phase-roots .kamer-root{
+    opacity:.72;
+    animation:kamer-root-grow 4.2s ease-in-out infinite;
+}
+.kamer-phase-roots .kamer-arrow{
+    opacity:.64;
+    animation:kamer-signal-nudge 2.8s steps(2,end) infinite;
+}
+.kamer-phase-roots .dossier-main,
+.kamer-phase-roots .infobox,
+.kamer-phase-roots .card{
+    box-shadow:0 0 0 1px rgba(148,255,159,.06), 0 18px 42px rgba(0,0,0,.18);
+}
+.kamer-phase-roots .dossier-content h2{
+    text-shadow:1px 0 0 rgba(148,255,159,.20), -1px 0 0 rgba(238,255,242,.08);
+}
+.kamer-phase-wind .kamer-air{
+    opacity:.68;
+    animation:kamer-air-pass 3.6s linear infinite;
+}
+.kamer-phase-wind .kamer-leaf{
+    opacity:.48;
+    animation:kamer-leaf-cross 5.4s ease-in-out infinite;
+}
+.kamer-phase-wind .page-hero h1,
+.kamer-phase-wind .dossier-content h2,
+.kamer-phase-wind .infobox-head h2{
+    animation:kamer-text-sway 4.4s ease-in-out infinite;
+}
+.kamer-phase-stable .kamer-root,
+.kamer-phase-stable .kamer-air,
+.kamer-phase-stable .kamer-leaf,
+.kamer-phase-stable .kamer-arrow{
+    opacity:0;
+    transition:opacity 1.6s ease;
+}
+.kamer-dossier-cover{
+    object-fit:contain!important;
+    background:radial-gradient(circle at 50% 45%, rgba(148,255,159,.13), transparent 38%), #071008;
+}
+@keyframes kamer-banner-unlock{
+    0%{clip-path:polygon(0 48%,100% 42%,100% 58%,0 54%);opacity:.35}
+    65%{clip-path:polygon(0 0,100% 4%,100% 100%,0 96%);opacity:1}
+    100%{clip-path:polygon(0 0,100% 0,100% 100%,0 100%);opacity:1}
+}
+@keyframes kamer-breath{
+    0%,100%{opacity:.62;transform:scale(1)}
+    50%{opacity:.94;transform:scale(1.012)}
+}
+@keyframes kamer-organic-drift{
+    0%,100%{transform:translate3d(0,0,0) rotate(0deg)}
+    50%{transform:translate3d(14px,-10px,0) rotate(12deg)}
+}
+@keyframes kamer-root-grow{
+    0%,100%{transform:scaleX(.52);filter:none}
+    50%{transform:scaleX(1);filter:drop-shadow(0 0 6px rgba(148,255,159,.22))}
+}
+@keyframes kamer-signal-nudge{
+    0%,100%{transform:translate3d(0,0,0)}
+    40%{transform:translate3d(5px,-2px,0)}
+    70%{transform:translate3d(-3px,2px,0)}
+}
+@keyframes kamer-air-pass{
+    from{transform:translate3d(-22%,0,0)}
+    to{transform:translate3d(22%,0,0)}
+}
+@keyframes kamer-leaf-cross{
+    0%{transform:translate3d(-16px,4px,0) rotate(-12deg)}
+    50%{transform:translate3d(34px,-16px,0) rotate(18deg)}
+    100%{transform:translate3d(78px,6px,0) rotate(42deg)}
+}
+@keyframes kamer-text-sway{
+    0%,100%{transform:translateX(0)}
+    50%{transform:translateX(3px)}
+}
+@media(max-width:900px){
+    .kamer-signal-dock{
+        grid-template-columns:1fr auto auto;
+    }
+    .kamer-progress-wrap,
+    .kamer-time{
+        grid-column:1 / -1;
+    }
+}
+@media(max-width:520px){
+    .kamer-exclusive-section{
+        padding-top:2px;
+    }
+    .kamer-banner-shell{
+        border-radius:12px;
+    }
+    .kamer-signal-dock{
+        gap:8px;
+        padding:8px;
+    }
+    .kamer-signal-copy small{
+        white-space:normal;
+    }
+    .kamer-signal-button{
+        width:30px;
+        height:30px;
+    }
+}
+@media(prefers-reduced-motion:reduce){
+    .kamer-banner-shell,
+    .kamer-phase-live .kamer-leaf,
+    .kamer-phase-live .kamer-exclusive-section::before,
+    .kamer-phase-roots .kamer-root,
+    .kamer-phase-roots .kamer-arrow,
+    .kamer-phase-wind .kamer-air,
+    .kamer-phase-wind .kamer-leaf,
+    .kamer-phase-wind .page-hero h1,
+    .kamer-phase-wind .dossier-content h2,
+    .kamer-phase-wind .infobox-head h2{
+        animation:none!important;
+    }
+    .kamer-root,
+    .kamer-air,
+    .kamer-leaf,
+    .kamer-arrow{
+        opacity:0!important;
+    }
+}
+/* KAMER EXCLUSIVE DEMO END */
