@@ -1,0 +1,81 @@
+/* NRX official character artwork: persistent injection for index cards */
+.archive.nrx-official-art-ready{
+  position:relative !important;
+  isolation:isolate !important;
+  overflow:hidden !important;
+  min-height:184px !important;
+  grid-template-columns:76px minmax(0,1fr) 188px 34px !important;
+  gap:14px !important;
+  padding:10px 14px !important;
+}
+.archive.nrx-official-art-ready > .archive-thumb,
+.archive.nrx-official-art-ready > div:not(.nrx-official-art-wrap),
+.archive.nrx-official-art-ready > .archive-num{
+  position:relative;
+  z-index:4;
+}
+.archive .nrx-official-art-wrap{
+  position:relative;
+  z-index:3;
+  width:188px;
+  height:178px;
+  align-self:end;
+  justify-self:center;
+  pointer-events:none;
+  overflow:visible;
+}
+.archive .nrx-official-art{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center bottom;
+  filter:drop-shadow(0 12px 16px rgba(0,0,0,.58));
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.archive.nrx-official-art-ready::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:radial-gradient(circle at 80% 52%, color-mix(in srgb, var(--ch-accent) 15%, transparent), transparent 42%);
+}
+@media (max-width:1100px) and (min-width:901px){
+  .archive.nrx-official-art-ready{
+    grid-template-columns:68px minmax(0,1fr) 148px 32px !important;
+    min-height:170px !important;
+  }
+  .archive .nrx-official-art-wrap{
+    width:150px;
+    height:164px;
+  }
+}
+@media (max-width:900px){
+  .archive.nrx-official-art-ready{
+    grid-template-columns:70px minmax(0,1fr) 175px 34px !important;
+  }
+  .archive .nrx-official-art-wrap{
+    width:175px;
+    height:174px;
+  }
+}
+@media (max-width:620px){
+  .archive.nrx-official-art-ready{
+    grid-template-columns:58px minmax(0,1fr) 30px !important;
+    min-height:150px !important;
+    padding:10px !important;
+  }
+  .archive.nrx-official-art-ready > div:not(.nrx-official-art-wrap){
+    padding-right:76px;
+  }
+  .archive .nrx-official-art-wrap{
+    position:absolute;
+    right:4px;
+    bottom:-8px;
+    width:128px;
+    height:146px;
+    opacity:.58;
+  }
+}
