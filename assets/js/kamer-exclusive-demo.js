@@ -1,219 +1,279 @@
 (function () {
   "use strict";
 
-  if (window.__KAMER_EXCLUSIVE_DEMO__) return;
-  window.__KAMER_EXCLUSIVE_DEMO__ = true;
+  if (window.__KAMER_EXCLUSIVE_DEMO_V2__) return;
+  window.__KAMER_EXCLUSIVE_DEMO_V2__ = true;
 
   const root = document.querySelector("[data-kamer-demo]");
   const page = document.querySelector(".kamer-season-page");
   if (!root || !page) return;
 
   const audio = document.getElementById("kamer-exclusive-audio");
-  const banner = root.querySelector("[data-kamer-banner]");
   const toggle = root.querySelector("[data-kamer-toggle]");
   const reset = root.querySelector("[data-kamer-reset]");
   const progress = root.querySelector("[data-kamer-progress]");
   const status = root.querySelector("[data-kamer-status]");
   const time = root.querySelector("[data-kamer-time]");
-  if (!audio || !toggle || !reset || !progress || !status || !time) return;
-  audio.loop = true;
+  const banner = root.querySelector("[data-kamer-banner]");
 
-  const controller = new AbortController();
-  const signal = controller.signal;
-  const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const phaseClasses = ["kamer-phase-live", "kamer-phase-roots", "kamer-phase-wind", "kamer-phase-stable"];
+  if (!audio || !toggle || !reset || !progress || !status || !time) return;
+
+  audio.loop = true;
+  audio.preload = "auto";
+
+  const phaseClasses = [
+    "kamer-phase-live",
+    "kamer-phase-roots",
+    "kamer-phase-wind",
+    "kamer-phase-stable"
+  ];
 
   let rafId = 0;
-  let seeking = false;
+  let dragging = false;
+  let pendingSeekRatio = null;
   let lastPhase = "";
 
-  function formatClock(value) {
-    if (!Number.isFinite(value)) return "00:00";
-    const minutes = Math.floor(value / 60);
-    const seconds = Math.floor(value % 60);
-    return String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
-  }
+  const fmt = (value) => {
+    if (!Number.isFinite(value) || value < 0) return "00:00";
+    const m = Math.floor(value / 60);
+    const s = Math.floor(value % 60);
+    return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+  };
 
-  function setStatus(text) {
-    status.textContent = text;
-  }
+  const duration = () =>
+    Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0;
 
-  function getPhase(currentTime) {
-    if (currentTime >= 64) return "stable";
-    if (currentTime >= 42.69) return "wind";
-    if (currentTime >= 21.36) return "roots";
+  const phaseAt = (t) => {
+    if (t >= 64) return "stable";
+    if (t >= 42.69) return "wind";
+    if (t >= 21.36) return "roots";
     return "live";
-  }
+  };
 
-  function applyPhase(phase) {
+  const applyPhase = (phase) => {
     if (phase === lastPhase) return;
-    phaseClasses.forEach((className) => page.classList.remove(className));
+    phaseClasses.forEach((cls) => page.classList.remove(cls));
     page.classList.add("kamer-phase-" + phase);
     root.dataset.kamerPhase = phase;
     lastPhase = phase;
 
-    if (phase === "stable") setStatus("Estabilizacion activa. La musica sigue hasta el final.");
-    else if (phase === "wind") setStatus("0:42.69 - viento sincronizado.");
-    else if (phase === "roots") setStatus("0:21.36 - raices y senales externas.");
-    else setStatus(audio.paused ? "Listo para iniciar la demo." : "0:00 - calma viva.");
-  }
+    if (phase === "stable") status.textContent = "Estabilización activa.";
+    else if (phase === "wind") status.textContent = "0:42.69 — viento sincronizado.";
+    else if (phase === "roots") status.textContent = "0:21.36 — raíces y señales externas.";
+    else status.textContent = audio.paused ? "Lista. Pulsa ▶ para iniciar." : "0:00 — calma viva.";
+  };
 
-  function updateUi() {
-    const duration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0;
+  const previewAt = (target) => {
+    const d = duration();
+    const safe = d ? Math.max(0, Math.min(d, target)) : Math.max(0, target);
+    time.textContent = fmt(safe) + " / " + fmt(d);
+    applyPhase(phaseAt(safe));
+  };
+
+  const sync = () => {
+    const d = duration();
     const current = Number.isFinite(audio.currentTime) ? audio.currentTime : 0;
-    const ratio = duration ? Math.min(1, current / duration) : 0;
+    const ratio = d ? Math.max(0, Math.min(1, current / d)) : 0;
 
-    if (!seeking) progress.value = String(Math.round(ratio * 1000));
-    progress.style.setProperty("--kamer-progress", String(ratio));
-    time.textContent = formatClock(current) + " / " + formatClock(duration);
-    time.setAttribute("datetime", "PT" + Math.round(current) + "S");
-    applyPhase(getPhase(current));
-  }
-
-  function timelineLoop() {
-    rafId = 0;
-    updateUi();
-    if (!audio.paused && !audio.ended && document.visibilityState === "visible") {
-      rafId = requestAnimationFrame(timelineLoop);
+    if (!dragging) {
+      progress.value = String(Math.round(ratio * 1000));
+      progress.style.setProperty("--kamer-progress", String(ratio));
     }
-  }
 
-  function startTimeline() {
-    if (!rafId) rafId = requestAnimationFrame(timelineLoop);
-  }
+    time.textContent = fmt(current) + " / " + fmt(d);
+    applyPhase(phaseAt(current));
+  };
 
-  function stopTimeline() {
-    if (!rafId) return;
-    cancelAnimationFrame(rafId);
+  const stopLoop = () => {
+    if (rafId) cancelAnimationFrame(rafId);
     rafId = 0;
-  }
+  };
 
-  function pauseOtherMedia() {
+  const loop = () => {
+    rafId = 0;
+    sync();
+    if (!audio.paused && !audio.ended && document.visibilityState === "visible") {
+      rafId = requestAnimationFrame(loop);
+    }
+  };
+
+  const startLoop = () => {
+    if (!rafId && document.visibilityState === "visible") {
+      rafId = requestAnimationFrame(loop);
+    }
+  };
+
+  const pauseOtherMedia = () => {
     document.querySelectorAll("audio, video").forEach((media) => {
       if (media !== audio && !media.paused) media.pause();
     });
-  }
+  };
 
-  function setPlayingUi(playing) {
-    toggle.textContent = playing ? "II" : "▶";
+  const setPlayingUi = (playing) => {
+    toggle.textContent = playing ? "Ⅱ" : "▶";
     toggle.setAttribute("aria-pressed", String(playing));
-    toggle.setAttribute("aria-label", playing ? "Pausar demo exclusiva de Kamer" : "Reproducir demo exclusiva de Kamer");
-  }
+    toggle.setAttribute(
+      "aria-label",
+      playing ? "Pausar demo exclusiva de Kamer" : "Reproducir demo exclusiva de Kamer"
+    );
+  };
 
-  async function playDemo() {
+  const seekRatio = (ratio, commit) => {
+    const normalized = Math.max(0, Math.min(1, ratio));
+    const d = duration();
+
+    progress.style.setProperty("--kamer-progress", String(normalized));
+
+    if (!d) {
+      pendingSeekRatio = normalized;
+      previewAt(0);
+      return;
+    }
+
+    const target = normalized * d;
+    previewAt(target);
+
+    try {
+      if (commit && typeof audio.fastSeek === "function") audio.fastSeek(target);
+      else audio.currentTime = target;
+      pendingSeekRatio = null;
+    } catch (_) {
+      pendingSeekRatio = normalized;
+    }
+  };
+
+  const play = async () => {
     pauseOtherMedia();
     try {
       await audio.play();
       setPlayingUi(true);
-      startTimeline();
-      updateUi();
-    } catch (error) {
+      sync();
+      startLoop();
+    } catch (_) {
       setPlayingUi(false);
-      setStatus("Pulsa reproducir para comenzar la demo.");
+      status.textContent = "El navegador bloqueó el inicio automático. Pulsa ▶.";
     }
-  }
+  };
 
-  function pauseDemo() {
+  const pause = () => {
     audio.pause();
     setPlayingUi(false);
-    setStatus("Demo en pausa.");
-    stopTimeline();
-    updateUi();
-  }
-
-  async function resetDemo() {
-    stopTimeline();
-    audio.pause();
-    audio.currentTime = 0;
-    lastPhase = "";
-    applyPhase("live");
-    updateUi();
-    await playDemo();
-  }
+    stopLoop();
+    sync();
+    status.textContent = "Demo en pausa.";
+  };
 
   toggle.addEventListener("click", () => {
-    if (audio.paused) playDemo();
-    else pauseDemo();
-  }, { signal });
+    if (audio.paused) play();
+    else pause();
+  });
 
-  reset.addEventListener("click", () => {
-    resetDemo();
-  }, { signal });
+  reset.addEventListener("click", async () => {
+    stopLoop();
+    audio.pause();
+    try { audio.currentTime = 0; } catch (_) {}
+    lastPhase = "";
+    progress.value = "0";
+    progress.style.setProperty("--kamer-progress", "0");
+    applyPhase("live");
+    sync();
+    await play();
+  });
+
+  progress.addEventListener("pointerdown", () => {
+    dragging = true;
+  });
 
   progress.addEventListener("input", () => {
-    seeking = true;
-    const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
-    if (duration) audio.currentTime = (Number(progress.value) / 1000) * duration;
-    updateUi();
-  }, { signal });
+    dragging = true;
+    const ratio = Number(progress.value) / 1000;
+    seekRatio(ratio, false);
+  });
 
-  progress.addEventListener("change", () => {
-    seeking = false;
-    updateUi();
-    if (!audio.paused) startTimeline();
-  }, { signal });
+  const finishSeek = () => {
+    const ratio = Number(progress.value) / 1000;
+    seekRatio(ratio, true);
+    dragging = false;
+    sync();
+    if (!audio.paused) startLoop();
+  };
 
-  audio.addEventListener("loadedmetadata", updateUi, { signal });
-  audio.addEventListener("durationchange", updateUi, { signal });
-  audio.addEventListener("timeupdate", updateUi, { signal });
+  progress.addEventListener("change", finishSeek);
+  progress.addEventListener("pointerup", finishSeek);
+  progress.addEventListener("keyup", (event) => {
+    if (["ArrowLeft", "ArrowRight", "Home", "End", "PageUp", "PageDown"].includes(event.key)) {
+      finishSeek();
+    }
+  });
+
+  const metadataReady = () => {
+    if (pendingSeekRatio !== null) seekRatio(pendingSeekRatio, true);
+    sync();
+  };
+
+  ["loadedmetadata", "durationchange", "loadeddata", "canplay"].forEach((name) => {
+    audio.addEventListener(name, metadataReady);
+  });
+
+  audio.addEventListener("timeupdate", sync);
+  audio.addEventListener("seeking", sync);
+  audio.addEventListener("seeked", () => {
+    sync();
+    if (!audio.paused) startLoop();
+  });
+
   audio.addEventListener("play", () => {
     pauseOtherMedia();
     setPlayingUi(true);
-    startTimeline();
-  }, { signal });
+    sync();
+    startLoop();
+  });
+
   audio.addEventListener("pause", () => {
     setPlayingUi(false);
-    stopTimeline();
-    updateUi();
-  }, { signal });
-  audio.addEventListener("ended", () => {
-    audio.currentTime = 0;
-    lastPhase = "";
-    applyPhase("live");
-    updateUi();
-    playDemo();
-  }, { signal });
-  audio.addEventListener("seeking", updateUi, { signal });
-  audio.addEventListener("seeked", updateUi, { signal });
+    stopLoop();
+    sync();
+  });
 
-  if (banner) {
-    banner.addEventListener("contextmenu", (event) => event.preventDefault(), { signal });
-    banner.addEventListener("dragstart", (event) => event.preventDefault(), { signal });
-  }
+  audio.addEventListener("error", () => {
+    status.textContent = "No se pudo cargar el audio. Recarga la página.";
+    setPlayingUi(false);
+  });
 
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible" && !audio.paused) startTimeline();
-    else stopTimeline();
-  }, { signal });
+    if (document.visibilityState === "visible") {
+      sync();
+      if (!audio.paused) startLoop();
+    } else {
+      stopLoop();
+    }
+  });
 
-  window.addEventListener("pagehide", () => {
-    stopTimeline();
-    controller.abort();
-  }, { signal });
+  window.addEventListener("focus", sync);
+  window.addEventListener("pageshow", sync);
 
-  if (reduceMotionQuery.matches) {
-    root.dataset.reducedMotion = "true";
+  if (banner) {
+    banner.addEventListener("dragstart", (e) => e.preventDefault());
   }
-  reduceMotionQuery.addEventListener("change", (event) => {
-    root.dataset.reducedMotion = event.matches ? "true" : "false";
-  }, { signal });
 
   applyPhase("live");
-  updateUi();
-  window.addEventListener("load", playDemo, { once: true, signal });
+  sync();
+
+  // Intento opcional. Si Edge/Chrome lo bloquea, el botón queda listo.
+  window.addEventListener("load", () => {
+    play();
+  }, { once: true });
 
   window.__kamerExclusiveDebug = {
-    phases: {
-      live: [0, 21.35],
-      roots: [21.36, 42.68],
-      wind: [42.69, 63.99],
-      stable: [64, "end"]
+    phaseAt,
+    sync,
+    seekTo: (seconds) => {
+      const d = duration();
+      if (!d) return false;
+      seekRatio(seconds / d, true);
+      return true;
     },
-    getPhase,
-    getCurrentPhase: () => lastPhase,
-    isRafActive: () => Boolean(rafId),
-    getAudioCount: () => document.querySelectorAll("audio").length,
-    getBannerCount: () => document.querySelectorAll(".kamer-banner-image").length,
-    isReducedMotion: () => reduceMotionQuery.matches
+    duration,
+    current: () => audio.currentTime
   };
 })();
