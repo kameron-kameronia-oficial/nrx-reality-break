@@ -16,6 +16,7 @@
   const status = root.querySelector("[data-kamer-status]");
   const time = root.querySelector("[data-kamer-time]");
   if (!audio || !toggle || !reset || !progress || !status || !time) return;
+  audio.loop = true;
 
   const controller = new AbortController();
   const signal = controller.signal;
@@ -94,7 +95,7 @@
   }
 
   function setPlayingUi(playing) {
-    toggle.textContent = playing ? "II" : "PLAY";
+    toggle.textContent = playing ? "II" : "▶";
     toggle.setAttribute("aria-pressed", String(playing));
     toggle.setAttribute("aria-label", playing ? "Pausar demo exclusiva de Kamer" : "Reproducir demo exclusiva de Kamer");
   }
@@ -108,7 +109,7 @@
       updateUi();
     } catch (error) {
       setPlayingUi(false);
-      setStatus("Pulsa PLAY para comenzar la demo.");
+      setStatus("Pulsa reproducir para comenzar la demo.");
     }
   }
 
@@ -166,13 +167,11 @@
     updateUi();
   }, { signal });
   audio.addEventListener("ended", () => {
-    setPlayingUi(false);
-    stopTimeline();
     audio.currentTime = 0;
     lastPhase = "";
     applyPhase("live");
     updateUi();
-    setStatus("Demo finalizada. Pulsa PLAY para reiniciar.");
+    playDemo();
   }, { signal });
   audio.addEventListener("seeking", updateUi, { signal });
   audio.addEventListener("seeked", updateUi, { signal });

@@ -408,8 +408,11 @@
 .kamer-banner-shell{
     position:relative;
     z-index:2;
+    width:100%;
+    max-width:1320px;
+    margin:0 auto;
     min-height:0;
-    aspect-ratio:16/9;
+    aspect-ratio:21/9;
     border:1px solid rgba(148,255,159,.30);
     border-radius:18px;
     overflow:hidden;
@@ -429,8 +432,9 @@
 .kamer-banner-image{
     width:100%;
     height:100%;
-    aspect-ratio:16/9;
-    object-fit:contain;
+    aspect-ratio:21/9;
+    display:block;
+    object-fit:cover;
     object-position:center;
     filter:none;
     background:#061008;
@@ -438,53 +442,53 @@
     -webkit-user-drag:none;
 }
 .kamer-banner-shield{
-    position:absolute;
-    inset:0;
-    z-index:3;
-    background:transparent;
+    display:none;
 }
 .kamer-signal-dock{
     position:relative;
     z-index:3;
     display:grid;
-    grid-template-columns:minmax(150px,1fr) auto auto minmax(160px,340px) auto;
+    grid-template-columns:minmax(120px,1fr) auto auto minmax(120px,240px) auto;
     align-items:center;
-    gap:12px;
-    margin:18px auto 0;
-    padding:12px;
-    border:1px solid rgba(148,255,159,.26);
-    border-radius:16px;
+    gap:8px;
+    width:min(100%,680px);
+    margin:12px auto 0;
+    padding:8px 10px;
+    border:1px solid rgba(148,255,159,.20);
+    border-radius:12px;
     background:linear-gradient(135deg, rgba(7,15,10,.94), rgba(11,19,16,.86));
-    box-shadow:0 18px 40px rgba(0,0,0,.22);
+    box-shadow:0 10px 24px rgba(0,0,0,.16);
 }
 .kamer-signal-copy{
     min-width:0;
 }
 .kamer-signal-copy strong{
     display:block;
-    font-size:.9rem;
+    font-size:.74rem;
     line-height:1.1;
     color:#effff2;
 }
 .kamer-signal-copy small{
     display:block;
     color:#9eb9a6;
-    font-size:.78rem;
+    font-size:.66rem;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
 }
 .kamer-signal-button{
-    width:42px;
-    height:42px;
+    width:32px;
+    height:32px;
     display:grid;
     place-items:center;
     border:1px solid rgba(148,255,159,.36);
-    border-radius:12px;
+    border-radius:9px;
     background:rgba(148,255,159,.10);
     color:#effff2;
     cursor:pointer;
     font-weight:850;
+    font-size:.68rem;
+    line-height:1;
 }
 .kamer-signal-button:hover,
 .kamer-signal-button:focus-visible{
@@ -502,7 +506,7 @@
 }
 .kamer-time{
     color:#cde5d2;
-    font:700 .82rem ui-monospace,Consolas,monospace;
+    font:700 .68rem ui-monospace,Consolas,monospace;
     white-space:nowrap;
 }
 .kamer-root,
@@ -640,15 +644,15 @@
         border-radius:12px;
     }
     .kamer-signal-dock{
-        gap:10px;
-        padding:10px;
+        gap:8px;
+        padding:8px;
     }
     .kamer-signal-copy small{
         white-space:normal;
     }
     .kamer-signal-button{
-        width:38px;
-        height:38px;
+        width:30px;
+        height:30px;
     }
 }
 @media(prefers-reduced-motion:reduce){
