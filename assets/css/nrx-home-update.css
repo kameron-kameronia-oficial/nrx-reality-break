@@ -1,0 +1,69 @@
+/* NRX HOME UPDATE */
+.nrx-main-banner{
+  display:block!important;
+  position:relative!important;
+  z-index:1000!important;
+  isolation:isolate!important;
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  line-height:0!important;
+  background:#000!important;
+}
+.nrx-main-banner img{
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  height:auto!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  object-fit:contain!important;
+}
+.nrx-demo-soon{
+  margin-top:18px!important;
+  font-size:clamp(1.25rem,2.5vw,2rem)!important;
+  color:var(--accent)!important;
+  font-family:"Cascadia Code",Consolas,monospace!important;
+  letter-spacing:.04em!important;
+  text-shadow:0 0 18px rgba(var(--accent-rgb),.34)!important;
+}
+#nrx-audio-unlock{
+  position:fixed;
+  right:14px;
+  bottom:14px;
+  z-index:5000;
+  display:none;
+  align-items:center;
+  gap:8px;
+  border:1px solid rgba(var(--accent-rgb),.6);
+  border-radius:999px;
+  padding:9px 12px;
+  background:rgba(5,8,13,.92);
+  color:var(--accent);
+  font:700 .78rem/1.1 Consolas,monospace;
+  letter-spacing:.06em;
+  box-shadow:0 0 20px rgba(var(--accent-rgb),.15);
+  cursor:pointer;
+}
+#nrx-audio-unlock.show{display:inline-flex}
+#nrx-audio-unlock::before{
+  content:"";
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:currentColor;
+  box-shadow:0 0 12px currentColor;
+}
+@media(max-width:620px){
+  #nrx-audio-unlock{
+    right:10px;
+    bottom:10px;
+    font-size:.72rem;
+  }
+}
