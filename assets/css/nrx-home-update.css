@@ -67,3 +67,17 @@
     font-size:.72rem;
   }
 }
+/* NRX_CLEAN_HOME_START */
+.nrx-home-message{
+  padding:72px 0 56px!important;
+}
+.nrx-home-copy{
+  display:block!important;
+}
+.nrx-home-copy h1{
+  max-width:1080px!important;
+}
+.nrx-home-message .nrx-demo-soon{
+  margin-bottom:0!important;
+}
+/* NRX_CLEAN_HOME_END */
