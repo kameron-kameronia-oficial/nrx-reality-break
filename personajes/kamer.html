@@ -129,7 +129,116 @@ body.kamer-season-page .nrx-kamer-leak-media img{
 <!-- NRX_KAMER_MEDIA_FOCUS_START -->
 <script src="../assets/js/nrx-kamer-media-focus.js" defer></script>
 <!-- NRX_KAMER_MEDIA_FOCUS_END -->
-</head><body class="kamer-season-page" style="--accent:#83f5b8;--accent-rgb:131,245,184"><a class="skip" href="#contenido">Saltar al contenido</a><div class="scanline"></div><header class="site-header"><div class="wrap header-row"><a class="brand" href="../index.html" aria-label="NRX Reality Break, inicio"><img src="../assets/media/home/nrx-logo-oficial.png" alt="NRX : Reality Break"></a><button class="menu-btn" type="button" aria-expanded="false" aria-label="Abrir menú">☰</button><nav class="nav" aria-label="Navegación principal"><a href="../index.html">Inicio</a><a href="../personajes.html" aria-current="page">Personajes</a><a href="../canciones.html">Canciones</a><a href="../mecanicas.html">Mecánicas</a><a href="../desarrollo.html">Desarrollo</a><button class="search-open" type="button" aria-label="Buscar">Buscar <kbd>Ctrl K</kbd></button></nav></div></header><main id="contenido"><section class="page-hero"><div class="wrap"><div class="breadcrumbs"><a href="../index.html">Inicio</a><span>/</span><a href="../personajes.html">Personajes</a><span>/</span><b>Kamer</b></div><span class="eyebrow">Archivo 01 // ARCHIVO PRINCIPAL</span><h1>Kamer</h1><p class="lede">Figura principal de la Temporada 1 y primer punto de entrada a la ruptura de realidades de NRX.</p></div></section><!-- KAMER SPECIAL START -->
+<!-- NRX_KAMER_RIGHT_POSTER_START -->
+<style id="nrx-kamer-right-poster-style">
+.kamer-right-poster-bg,
+.kamer-right-poster-shade{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+}
+.kamer-right-poster-bg{
+  z-index:0;
+  background-image:
+    linear-gradient(90deg,
+      rgba(8,7,10,0.00) 0%,
+      rgba(8,7,10,0.04) 34%,
+      rgba(8,7,10,0.14) 46%,
+      rgba(8,7,10,0.52) 58%,
+      rgba(8,7,10,0.78) 70%,
+      rgba(8,7,10,0.92) 100%
+    ),
+    url("../assets/media/kamer/official/kamer-right-poster.png");
+  background-repeat:no-repeat,no-repeat;
+  background-position:left top,right center;
+  background-size:auto,min(48vw,780px) auto;
+  opacity:0.99;
+  filter:saturate(1.02) contrast(1.02);
+}
+.kamer-right-poster-shade{
+  z-index:0;
+  background:
+    radial-gradient(circle at 84% 22%, rgba(255,89,110,0.16), transparent 18%),
+    radial-gradient(circle at 92% 78%, rgba(255,89,110,0.11), transparent 26%),
+    linear-gradient(180deg, rgba(8,7,10,0.84) 0%, rgba(8,7,10,0.70) 24%, rgba(8,7,10,0.84) 100%);
+}
+.site-header,
+main,
+footer,
+.footer{
+  position:relative;
+  z-index:1;
+}
+.page-hero{
+  min-height:min(78vh,920px);
+  display:flex;
+  align-items:center;
+}
+.page-hero .wrap{
+  position:relative;
+  width:min(1120px,calc(100% - 36px));
+  padding-right:min(44vw,520px);
+}
+.page-hero h1,
+.page-hero .eyebrow,
+.page-hero .lede{
+  max-width:640px;
+}
+.page-hero .lede,
+.dossier-main p,
+.dossier-main li,
+.infobox dd,
+.infobox dt,
+blockquote{
+  text-shadow:0 2px 18px rgba(0,0,0,0.55);
+}
+.dossier-main,
+.infobox,
+.card,
+.audio-panel,
+.gallery figure,
+blockquote,
+.notice{
+  background:rgba(10,8,12,0.74) !important;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-color:rgba(255,255,255,0.10) !important;
+  box-shadow:0 18px 50px rgba(0,0,0,0.26);
+}
+@media (max-width:1100px){
+  .kamer-right-poster-bg{
+    background-size:auto,min(44vw,560px) auto;
+  }
+  .page-hero .wrap{
+    padding-right:min(40vw,440px);
+  }
+}
+@media (max-width:860px){
+  .kamer-right-poster-bg{
+    background-position:left top, center top;
+    background-size:auto,100vw auto;
+    opacity:0.18;
+  }
+  .page-hero .wrap{
+    padding-right:0;
+  }
+  .dossier-main,
+  .infobox,
+  .card,
+  .audio-panel,
+  .gallery figure,
+  blockquote,
+  .notice{
+    background:rgba(10,8,12,0.82) !important;
+  }
+}
+</style>
+<!-- NRX_KAMER_RIGHT_POSTER_END -->
+</head><body class="kamer-season-page" style="--accent:#83f5b8;--accent-rgb:131,245,184">
+<!-- NRX_KAMER_RIGHT_POSTER_BODY_START -->
+<div class="kamer-right-poster-bg" aria-hidden="true"></div>
+<div class="kamer-right-poster-shade" aria-hidden="true"></div>
+<!-- NRX_KAMER_RIGHT_POSTER_BODY_END --><a class="skip" href="#contenido">Saltar al contenido</a><div class="scanline"></div><header class="site-header"><div class="wrap header-row"><a class="brand" href="../index.html" aria-label="NRX Reality Break, inicio"><img src="../assets/media/home/nrx-logo-oficial.png" alt="NRX : Reality Break"></a><button class="menu-btn" type="button" aria-expanded="false" aria-label="Abrir menú">☰</button><nav class="nav" aria-label="Navegación principal"><a href="../index.html">Inicio</a><a href="../personajes.html" aria-current="page">Personajes</a><a href="../canciones.html">Canciones</a><a href="../mecanicas.html">Mecánicas</a><a href="../desarrollo.html">Desarrollo</a><button class="search-open" type="button" aria-label="Buscar">Buscar <kbd>Ctrl K</kbd></button></nav></div></header><main id="contenido"><section class="page-hero"><div class="wrap"><div class="breadcrumbs"><a href="../index.html">Inicio</a><span>/</span><a href="../personajes.html">Personajes</a><span>/</span><b>Kamer</b></div><span class="eyebrow">Archivo 01 // ARCHIVO PRINCIPAL</span><h1>Kamer</h1><p class="lede">Figura principal de la Temporada 1 y primer punto de entrada a la ruptura de realidades de NRX.</p></div></section><!-- KAMER SPECIAL START -->
 <section class="section kamer-exclusive-section" data-kamer-demo>
   <div class="wrap">
     <div class="kamer-exclusive-field" aria-hidden="true">
