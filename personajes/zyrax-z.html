@@ -229,32 +229,46 @@ body > .scanline{
 <audio id="zyraxSounderAudio" preload="metadata">
   <source src="../assets/media/zyrax-z/sounder/sounder.ogg" type="audio/ogg">
 </audio>
-<!-- NRX_ZYRAX_SOUNDER_BACKGROUND_END --><a class="skip" href="#contenido">Saltar al contenido</a><div class="scanline"></div><header class="site-header"><div class="wrap header-row"><a class="brand" href="../index.html" aria-label="NRX Reality Break, inicio"><img src="../assets/media/home/nrx-logo-oficial.png" alt="NRX : Reality Break"></a><button class="menu-btn" type="button" aria-expanded="false" aria-label="Abrir menú">☰</button><nav class="nav" aria-label="Navegación principal"><a href="../index.html">Inicio</a><a href="../personajes.html" aria-current="page">Personajes</a><a href="../canciones.html">Canciones</a><a href="../mecanicas.html">Mecánicas</a><a href="../desarrollo.html">Desarrollo</a><button class="search-open" type="button" aria-label="Buscar">Buscar <kbd>Ctrl K</kbd></button></nav></div></header><main id="contenido"><!-- NRX_ZYRAX_RESTORED_START_START -->
-<section class="zyrax-experience" aria-label="Zyrax.Z">
+<!-- NRX_ZYRAX_SOUNDER_BACKGROUND_END --><a class="skip" href="#contenido">Saltar al contenido</a><div class="scanline"></div><header class="site-header"><div class="wrap header-row"><a class="brand" href="../index.html" aria-label="NRX Reality Break, inicio"><img src="../assets/media/home/nrx-logo-oficial.png" alt="NRX : Reality Break"></a><button class="menu-btn" type="button" aria-expanded="false" aria-label="Abrir menú">☰</button><nav class="nav" aria-label="Navegación principal"><a href="../index.html">Inicio</a><a href="../personajes.html" aria-current="page">Personajes</a><a href="../canciones.html">Canciones</a><a href="../mecanicas.html">Mecánicas</a><a href="../desarrollo.html">Desarrollo</a><button class="search-open" type="button" aria-label="Buscar">Buscar <kbd>Ctrl K</kbd></button></nav></div></header><main id="contenido"><!-- ZYRAX_CONTRAFRECUENCIA_START -->
+<section class="zyrax-experience" aria-label="Zyrax.Z - Contrafrecuencia">
   <div class="wrap">
     <div class="zyrax-experience__frame">
       <picture>
         <source srcset="../assets/media/zyrax/banner-zyrax.webp" type="image/webp">
-        <img class="zyrax-experience__banner" src="../assets/media/zyrax/banner-zyrax-original.png" alt="Poster oficial de Zyrax.Z">
+        <img class="zyrax-experience__banner" src="../assets/media/zyrax/banner-zyrax-original.png" alt="Banner oficial de Zyrax.Z">
       </picture>
 
       <div class="zyrax-experience__hud">
         <div class="zyrax-experience__label">
-          ZYRAX.Z // SOUNDER // OMEN
-          <strong>ELLA ES EL SONIDO</strong>
+          CONTRAFRECUENCIA // 170 BPM // 4/4 // FA MENOR
+          <strong id="zyraxEffectStatus">SENAL ESTABLE</strong>
         </div>
 
         <div class="zyrax-experience__controls">
-          <button id="zyraxSounderHeroToggle" class="zyrax-audio-button" type="button" aria-pressed="false">
-            &#9654; Sounder
+          <button id="zyraxAudioToggle" class="zyrax-audio-button" type="button" aria-pressed="false">
+            &#9654; Contrafrecuencia
           </button>
-          <span class="zyrax-time">Sounder / Omen</span>
+          <span id="zyraxTime" class="zyrax-time">0:00 / 2:45</span>
+          <span id="zyraxMetric" class="zyrax-metric">170 BPM // 4/4 // FA MENOR</span>
         </div>
       </div>
+
+      <div id="zyraxAutoplayGate" class="zyrax-autoplay-gate" hidden>
+        <button id="zyraxAutoplayButton" class="zyrax-autoplay-gate__button" type="button">
+          ACTIVAR CONTRAFRECUENCIA
+        </button>
+      </div>
+
+      <audio id="zyraxBackgroundMusic" preload="auto" autoplay>
+        <source src="../assets/media/zyrax/contrafrecuencia.mp3" type="audio/mpeg">
+        <source src="../assets/media/zyrax/contrafrecuencia-original.m4a" type="audio/mp4">
+      </audio>
     </div>
   </div>
 </section>
-<!-- NRX_ZYRAX_RESTORED_START_END --><section class="page-hero"><div class="wrap"><div class="breadcrumbs"><a href="../index.html">Inicio</a><span>/</span><a href="../personajes.html">Personajes</a><span>/</span><b>Zyrax.Z</b></div><span class="eyebrow">Archivo 08 // RIVAL OFICIAL</span><h1>Zyrax.Z</h1><p class="lede">Ella es el sonido.</p></div></section><section class="section"><div class="wrap dossier"><article class="dossier-main"><div class="dossier-content"><span class="badge">Rival oficial</span><h2>Historia</h2><p>Ella es el sonido.</p><h2>Canciones</h2>
+
+<div id="zyraxPresageOverlay" aria-hidden="true"></div>
+<!-- ZYRAX_CONTRAFRECUENCIA_END --><section class="page-hero"><div class="wrap"><div class="breadcrumbs"><a href="../index.html">Inicio</a><span>/</span><a href="../personajes.html">Personajes</a><span>/</span><b>Zyrax.Z</b></div><span class="eyebrow">Archivo 08 // RIVAL OFICIAL</span><h1>Zyrax.Z</h1><p class="lede">Ella es el sonido.</p></div></section><section class="section"><div class="wrap dossier"><article class="dossier-main"><div class="dossier-content"><span class="badge">Rival oficial</span><h2>Historia</h2><p>Ella es el sonido.</p><h2>Canciones</h2>
 <ul class="song-list zyrax-song-list">
   <li class="zyrax-sounder-row">
     <button id="zyraxSounderToggle" class="zyrax-sounder-button" type="button" aria-pressed="false">
@@ -326,7 +340,7 @@ body > .scanline{
   </div>
 </section>
 <!-- NRX_ZYRAX_ART_ARCHIVE_SECTION_END -->
-</main><footer class="footer"><div class="wrap footer-grid"><div><strong>NRX : Reality Break</strong><br><small>Base de datos oficial del proyecto. Friday Night Funkin’ pertenece a sus respectivos creadores; NRX es un proyecto de fans independiente.</small></div><div class="footer-links"><a href="../personajes.html">Archivos</a><a href="../desarrollo.html">Desarrollo</a><a href="../sitemap.xml">Sitemap</a></div></div></footer><dialog class="search-dialog"><div class="search-box"><input id="site-search" type="search" placeholder="Buscar personaje, canción o archivo…" aria-label="Buscar en la wiki"><button class="search-close" type="button" aria-label="Cerrar búsqueda">✕</button></div><div class="search-results" aria-live="polite"></div></dialog><script src="../assets/js/app.js"></script><!-- NRX_ZYRAX_SOUNDER_SCRIPT_START -->
+</main><footer class="footer"><div class="wrap footer-grid"><div><strong>NRX : Reality Break</strong><br><small>Base de datos oficial del proyecto. Friday Night Funkin’ pertenece a sus respectivos creadores; NRX es un proyecto de fans independiente.</small></div><div class="footer-links"><a href="../personajes.html">Archivos</a><a href="../desarrollo.html">Desarrollo</a><a href="../sitemap.xml">Sitemap</a></div></div></footer><dialog class="search-dialog"><div class="search-box"><input id="site-search" type="search" placeholder="Buscar personaje, canción o archivo…" aria-label="Buscar en la wiki"><button class="search-close" type="button" aria-label="Cerrar búsqueda">✕</button></div><div class="search-results" aria-live="polite"></div></dialog><script src="../assets/js/app.js"></script><script src="../assets/js/zyrax-contrafrecuencia.js"></script><!-- NRX_ZYRAX_SOUNDER_SCRIPT_START -->
 <script id="nrx-zyrax-sounder-script">
 (function(){
   var button=document.getElementById('zyraxSounderToggle');
