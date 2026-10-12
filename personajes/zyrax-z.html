@@ -220,16 +220,7 @@ body > .scanline{
 </style>
 <!-- NRX_ZYRAX_SOUNDER_STYLE_END -->
 </head><body style="--accent:#7aa7ff;--accent-rgb:122,167,255">
-<!-- NRX_ZYRAX_SOUNDER_BACKGROUND_START -->
-<div id="zyraxSounderBackground" aria-hidden="true">
-  <video id="zyraxSounderVideo" muted playsinline preload="metadata" poster="../assets/media/zyrax-z/sounder/sounder-poster.png">
-    <source src="../assets/media/zyrax-z/sounder/sounder-background-muted.mp4" type="video/mp4">
-  </video>
-</div>
-<audio id="zyraxSounderAudio" preload="metadata">
-  <source src="../assets/media/zyrax-z/sounder/sounder.ogg" type="audio/ogg">
-</audio>
-<!-- NRX_ZYRAX_SOUNDER_BACKGROUND_END --><a class="skip" href="#contenido">Saltar al contenido</a><div class="scanline"></div><header class="site-header"><div class="wrap header-row"><a class="brand" href="../index.html" aria-label="NRX Reality Break, inicio"><img src="../assets/media/home/nrx-logo-oficial.png" alt="NRX : Reality Break"></a><button class="menu-btn" type="button" aria-expanded="false" aria-label="Abrir menú">☰</button><nav class="nav" aria-label="Navegación principal"><a href="../index.html">Inicio</a><a href="../personajes.html" aria-current="page">Personajes</a><a href="../canciones.html">Canciones</a><a href="../mecanicas.html">Mecánicas</a><a href="../desarrollo.html">Desarrollo</a><button class="search-open" type="button" aria-label="Buscar">Buscar <kbd>Ctrl K</kbd></button></nav></div></header><main id="contenido"><!-- ZYRAX_CONTRAFRECUENCIA_START -->
+<a class="skip" href="#contenido">Saltar al contenido</a><div class="scanline"></div><header class="site-header"><div class="wrap header-row"><a class="brand" href="../index.html" aria-label="NRX Reality Break, inicio"><img src="../assets/media/home/nrx-logo-oficial.png" alt="NRX : Reality Break"></a><button class="menu-btn" type="button" aria-expanded="false" aria-label="Abrir menú">☰</button><nav class="nav" aria-label="Navegación principal"><a href="../index.html">Inicio</a><a href="../personajes.html" aria-current="page">Personajes</a><a href="../canciones.html">Canciones</a><a href="../mecanicas.html">Mecánicas</a><a href="../desarrollo.html">Desarrollo</a><button class="search-open" type="button" aria-label="Buscar">Buscar <kbd>Ctrl K</kbd></button></nav></div></header><main id="contenido"><!-- ZYRAX_CONTRAFRECUENCIA_START -->
 <section class="zyrax-experience" aria-label="Zyrax.Z - Contrafrecuencia">
   <div class="wrap">
     <div class="zyrax-experience__frame">
@@ -340,204 +331,141 @@ body > .scanline{
   </div>
 </section>
 <!-- NRX_ZYRAX_ART_ARCHIVE_SECTION_END -->
-</main><footer class="footer"><div class="wrap footer-grid"><div><strong>NRX : Reality Break</strong><br><small>Base de datos oficial del proyecto. Friday Night Funkin’ pertenece a sus respectivos creadores; NRX es un proyecto de fans independiente.</small></div><div class="footer-links"><a href="../personajes.html">Archivos</a><a href="../desarrollo.html">Desarrollo</a><a href="../sitemap.xml">Sitemap</a></div></div></footer><dialog class="search-dialog"><div class="search-box"><input id="site-search" type="search" placeholder="Buscar personaje, canción o archivo…" aria-label="Buscar en la wiki"><button class="search-close" type="button" aria-label="Cerrar búsqueda">✕</button></div><div class="search-results" aria-live="polite"></div></dialog><script src="../assets/js/app.js"></script><script src="../assets/js/zyrax-contrafrecuencia.js"></script><!-- NRX_ZYRAX_SOUNDER_SCRIPT_START -->
+</main><footer class="footer"><div class="wrap footer-grid"><div><strong>NRX : Reality Break</strong><br><small>Base de datos oficial del proyecto. Friday Night Funkin’ pertenece a sus respectivos creadores; NRX es un proyecto de fans independiente.</small></div><div class="footer-links"><a href="../personajes.html">Archivos</a><a href="../desarrollo.html">Desarrollo</a><a href="../sitemap.xml">Sitemap</a></div></div></footer><dialog class="search-dialog"><div class="search-box"><input id="site-search" type="search" placeholder="Buscar personaje, canción o archivo…" aria-label="Buscar en la wiki"><button class="search-close" type="button" aria-label="Cerrar búsqueda">✕</button></div><div class="search-results" aria-live="polite"></div></dialog><script src="../assets/js/app.js"></script><script src="../assets/js/zyrax-contrafrecuencia.js"></script>
+<!-- NRX_ZYRAX_SOUNDER_BACKGROUND_START -->
+<div id="zyraxSounderBackground" aria-hidden="true">
+  <video id="zyraxSounderVideo" muted playsinline preload="metadata" poster="../assets/media/zyrax-z/sounder/sounder-poster.png">
+    <source src="../assets/media/zyrax-z/sounder/sounder-background-muted.mp4" type="video/mp4">
+  </video>
+</div>
+<audio id="zyraxSounderAudio" preload="metadata">
+  <source src="../assets/media/zyrax-z/sounder/sounder.ogg" type="audio/ogg">
+</audio>
+<!-- NRX_ZYRAX_SOUNDER_BACKGROUND_END -->
+<!-- NRX_ZYRAX_SOUNDER_SCRIPT_START -->
 <script id="nrx-zyrax-sounder-script">
 (function(){
   var button=document.getElementById('zyraxSounderToggle');
   var audio=document.getElementById('zyraxSounderAudio');
   var video=document.getElementById('zyraxSounderVideo');
-  var bg=document.getElementById('zyraxSounderBackground');
-  var icon=button ? button.querySelector('.zyrax-sounder-icon') : null;
+  var visual=document.getElementById('zyraxSounderBackground');
+  var intro=document.getElementById('zyraxBackgroundMusic');
 
-  if(!button || !audio || !video || !bg){ return; }
+  if(!button || !audio || !video || !visual){ return; }
+
+  var resumeIntro=false;
+  var stopping=false;
 
   video.muted=true;
   video.volume=0;
-
-  function showBackground(){
-    bg.classList.add('is-active');
-    bg.setAttribute('aria-hidden','false');
-  }
-
-  function hideBackground(){
-    bg.classList.remove('is-active');
-    bg.setAttribute('aria-hidden','true');
-  }
 
   function setPlaying(value){
     button.setAttribute('aria-pressed',value ? 'true' : 'false');
   }
 
+  function showVisual(){
+    visual.classList.add('is-active');
+    visual.setAttribute('aria-hidden','false');
+  }
+
+  function hideVisual(){
+    visual.classList.remove('is-active');
+    visual.setAttribute('aria-hidden','true');
+  }
+
   function syncVideo(){
-    if(Number.isFinite(audio.currentTime) && Math.abs(video.currentTime-audio.currentTime)>.22){
-      try{ video.currentTime=audio.currentTime; }catch(e){}
+    if(Number.isFinite(audio.currentTime) && Math.abs(video.currentTime-audio.currentTime)>.18){
+      try{video.currentTime=audio.currentTime;}catch(e){}
     }
   }
 
-  function start(){
-    showBackground();
-    syncVideo();
-    video.play().catch(function(){});
-    audio.play().then(function(){
-      setPlaying(true);
-      syncVideo();
-    }).catch(function(){
-      hideBackground();
-      video.pause();
-      setPlaying(false);
-    });
+  function resumeIntroIfNeeded(){
+    if(resumeIntro && intro && !intro.ended){
+      intro.play().catch(function(){});
+    }
+    resumeIntro=false;
   }
 
-  function pause(){
-    audio.pause();
-    video.pause();
+  function stopSounder(reset){
+    if(stopping){ return; }
+    stopping=true;
+
+    if(!audio.paused){ audio.pause(); }
+    if(!video.paused){ video.pause(); }
+
+    if(reset){
+      try{audio.currentTime=0;}catch(e){}
+      try{video.currentTime=0;}catch(e){}
+    }
+
+    hideVisual();
     setPlaying(false);
-    hideBackground();
+    stopping=false;
+    resumeIntroIfNeeded();
+  }
+
+  function startSounder(){
+    resumeIntro=Boolean(intro && !intro.paused && !intro.ended);
+
+    if(intro && !intro.paused){
+      intro.pause();
+    }
+
+    showVisual();
+    setPlaying(true);
+
+    audio.play().then(function(){
+      syncVideo();
+      return video.play();
+    }).then(function(){
+      syncVideo();
+    }).catch(function(){
+      stopSounder(false);
+    });
   }
 
   button.addEventListener('click',function(){
     if(audio.paused || audio.ended){
       if(audio.ended){
-        audio.currentTime=0;
+        try{audio.currentTime=0;}catch(e){}
         try{video.currentTime=0;}catch(e){}
       }
-      start();
+      startSounder();
     }else{
-      pause();
+      stopSounder(false);
     }
   });
 
   audio.addEventListener('play',function(){
-    showBackground();
-    syncVideo();
-    video.play().catch(function(){});
+    showVisual();
     setPlaying(true);
-  });
-
-  audio.addEventListener('pause',function(){
-    if(!audio.ended){
-      video.pause();
-      hideBackground();
-      setPlaying(false);
-    }
+    syncVideo();
   });
 
   audio.addEventListener('seeking',syncVideo);
+  audio.addEventListener('seeked',syncVideo);
 
   audio.addEventListener('timeupdate',function(){
     if(!audio.paused){ syncVideo(); }
   });
 
   audio.addEventListener('ended',function(){
-    video.pause();
+    if(stopping){ return; }
+    if(!video.paused){ video.pause(); }
     try{video.currentTime=0;}catch(e){}
-    hideBackground();
+    hideVisual();
     setPlaying(false);
+    resumeIntroIfNeeded();
+  });
+
+  audio.addEventListener('pause',function(){
+    if(stopping || audio.ended){ return; }
+    if(!video.paused){ video.pause(); }
+    hideVisual();
+    setPlaying(false);
+    resumeIntroIfNeeded();
   });
 })();
 </script>
 <!-- NRX_ZYRAX_SOUNDER_SCRIPT_END -->
-<!-- NRX_ZYRAX_SOUNDER_SCRIPT_START -->
-<script id="nrx-zyrax-sounder-script">
-(function(){
-  var listButton=document.getElementById('zyraxSounderToggle');
-  var heroButton=document.getElementById('zyraxSounderHeroToggle');
-  var buttons=[listButton,heroButton].filter(Boolean);
-  var audio=document.getElementById('zyraxSounderAudio');
-  var video=document.getElementById('zyraxSounderVideo');
-  var bg=document.getElementById('zyraxSounderBackground');
-
-  if(!buttons.length || !audio || !video || !bg){ return; }
-
-  video.muted=true;
-  video.volume=0;
-
-  function showBackground(){
-    bg.classList.add('is-active');
-    bg.setAttribute('aria-hidden','false');
-  }
-
-  function hideBackground(){
-    bg.classList.remove('is-active');
-    bg.setAttribute('aria-hidden','true');
-  }
-
-  function setPlaying(value){
-    buttons.forEach(function(button){
-      button.setAttribute('aria-pressed',value ? 'true' : 'false');
-      if(button.id==='zyraxSounderHeroToggle'){
-        button.innerHTML=(value ? '&#10074;&#10074; ' : '&#9654; ')+'Sounder';
-      }
-    });
-  }
-
-  function syncVideo(){
-    if(Number.isFinite(audio.currentTime) && Math.abs(video.currentTime-audio.currentTime)>.22){
-      try{video.currentTime=audio.currentTime;}catch(e){}
-    }
-  }
-
-  function start(){
-    showBackground();
-    syncVideo();
-    video.play().catch(function(){});
-    audio.play().then(function(){
-      setPlaying(true);
-      syncVideo();
-    }).catch(function(){
-      hideBackground();
-      video.pause();
-      setPlaying(false);
-    });
-  }
-
-  function pause(){
-    audio.pause();
-    video.pause();
-    setPlaying(false);
-    hideBackground();
-  }
-
-  buttons.forEach(function(button){
-    button.addEventListener('click',function(){
-      if(audio.paused || audio.ended){
-        if(audio.ended){
-          audio.currentTime=0;
-          try{video.currentTime=0;}catch(e){}
-        }
-        start();
-      }else{
-        pause();
-      }
-    });
-  });
-
-  audio.addEventListener('play',function(){
-    showBackground();
-    syncVideo();
-    video.play().catch(function(){});
-    setPlaying(true);
-  });
-
-  audio.addEventListener('pause',function(){
-    if(!audio.ended){
-      video.pause();
-      hideBackground();
-      setPlaying(false);
-    }
-  });
-
-  audio.addEventListener('seeking',syncVideo);
-  audio.addEventListener('timeupdate',function(){
-    if(!audio.paused){syncVideo();}
-  });
-
-  audio.addEventListener('ended',function(){
-    video.pause();
-    try{video.currentTime=0;}catch(e){}
-    hideBackground();
-    setPlaying(false);
-  });
-})();
-</script>
-<!-- NRX_ZYRAX_SOUNDER_SCRIPT_END --> </body></html>
+ </body></html>
